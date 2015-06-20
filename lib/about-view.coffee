@@ -6,8 +6,9 @@ class AboutView extends ScrollView
     @div class: 'pane-item native-key-bindings about-atom', tabindex: -1, =>
       @div class: 'panel', =>
         @img class: 'atom-icon', src: 'atom://about/assets/atom.png'
-        @div class: 'atom-version', outlet: 'atomVersion'
-        @button outlet: 'copyAtomVersion', class: 'btn icon icon-clippy'
+        @div class: 'inline-block', =>
+          @div class: 'atom-version', outlet: 'atomVersion'
+          @button outlet: 'copyAtomVersion', class: 'btn icon icon-clippy'
         @div class: 'credits', outlet: 'credits', =>
           @span class: 'icon icon-code'
           @span class: 'inline', ' with '
