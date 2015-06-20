@@ -18,7 +18,7 @@ class AboutView extends ScrollView
           @span class: 'inline', ' by '
           @a class: 'icon icon-logo-github', href: 'https://github.com'
           @span class: 'inline', ' and the '
-          @a href: 'https://github.com/atom/atom/contributors', 'Atom community'
+          @a href: 'https://github.com/atom/atom/contributors', 'Atom Community'
 
   initialize: ({@uri}) ->
     @atomVersion.text(atom.getVersion())
