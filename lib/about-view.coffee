@@ -4,6 +4,7 @@ module.exports =
 class AboutView extends ScrollView
   @content: ->
     @div class: 'pane-item native-key-bindings about-atom', tabindex: -1, =>
+      @img class: 'atom-icon', src: 'atom://about/assets/atom.png'
       @div class: 'atom-version', outlet: 'atomVersion'
       @button outlet: 'copyAtomVersion', class: 'btn icon icon-clippy'
       @div class: 'credits', outlet: 'credits', =>
