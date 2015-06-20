@@ -4,6 +4,8 @@
   -webkit-user-select: none;
   cursor: default;
   overflow: auto;
+  font-size: 1.5em;
+  padding: 10px;
 
   button {
     cursor: default;
@@ -11,5 +13,16 @@
 
   .atom-icon {
     width: 100px;
+  }
+
+  .icon::before {
+    margin-right: 0;
+    font-size: 1.5em;
+    width: auto;
+  }
+  .credits {
+    .icon-logo-github::before {
+      vertical-align: sub;
+    }
   }
 }
