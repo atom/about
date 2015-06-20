@@ -10,6 +10,11 @@ createAboutView = (state) ->
   aboutView ?= new AboutView(state)
   aboutView
 
+atom.deserializers.add
+  name: 'AboutView'
+  version: 1
+  deserialize: createAboutView
+
 module.exports = About =
   activate: ->
     @subscriptions = new CompositeDisposable

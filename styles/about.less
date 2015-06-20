@@ -11,8 +11,8 @@
     cursor: default;
   }
 
-  .atom-icon {
-    width: 100px;
+  img, a {
+    -webkit-user-drag: none;
   }
 
   .icon::before {
@@ -20,7 +20,34 @@
     font-size: 1.5em;
     width: auto;
   }
+
+  .atom-header {
+    .atom-icon {
+      width: 100px;
+      margin-right: 10px;
+    }
+
+    .atom-heading {
+      font-size: 1.5em;
+      font-weight: bold;
+    }
+
+    .atom-version {
+      margin-right: 6px;
+    }
+
+    button {
+      font-size: 1em;
+    }
+
+    .icon::before {
+      font-size: 1em;
+    }
+  }
+
   .credits {
+    margin-top: 40px;
+
     .icon-logo-github::before {
       vertical-align: sub;
     }
