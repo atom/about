@@ -1,11 +1,18 @@
 @import "ui-variables";
 
 .about-atom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   -webkit-user-select: none;
   cursor: default;
   overflow: auto;
   font-size: 1.5em;
-  padding: 10px;
+  line-height: 1.4;
+  padding: 4em;
+  color: @text-color;
+  background-color: @base-background-color;
 
   button {
     cursor: default;
@@ -22,12 +29,14 @@
   }
 
   .atom-header {
+    text-align: center;
+
     .about-logo {
       display: block;
       width: 100%;
       max-width: 290px;
       max-width: 280px;
-      // margin: 0 auto 2em auto;
+      margin: 0 auto 0.4em auto;
       color: @text-color-highlight;
     }
 
@@ -36,8 +45,20 @@
       font-weight: bold;
     }
 
-    .atom-version {
-      margin-right: 6px;
+    .about-version-container {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+
+      .atom-version {
+        margin-right: 6px;
+      }
+
+      .btn {
+        // TODO: Remove button from normal flow so its width won't be used when
+        // centering.
+      }
     }
 
     button {
