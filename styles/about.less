@@ -48,8 +48,17 @@
   .credits {
     margin-top: 40px;
 
+    .icon::before {
+      // Make these octicons look good inlined with text
+      position: relative;
+      top: 1px;
+    }
+
     .icon-logo-github::before {
-      vertical-align: sub;
+      // This Octicon has a lot of extra whitespace at the bottom, so it needs
+      // to be moved down more to compensate.
+      // See https://github.com/github/octicons/issues/59
+      top: 3px;
     }
   }
 }
