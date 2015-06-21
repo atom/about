@@ -12,8 +12,7 @@ createAboutView = (state) ->
 
 atom.deserializers.add
   name: 'AboutView'
-  version: 1
-  deserialize: createAboutView
+  deserialize: (state) -> createAboutView(state)
 
 module.exports = About =
   activate: ->
