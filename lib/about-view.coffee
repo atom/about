@@ -1,4 +1,5 @@
 {ScrollView} = require 'atom-space-pen-views'
+{Disposable} = require 'atom'
 
 module.exports =
 class AboutView extends ScrollView
@@ -20,11 +21,15 @@ class AboutView extends ScrollView
           @span class: 'inline', ' and the '
           @a href: 'https://github.com/atom/atom/contributors', 'Atom Community'
 
+  onDidChangeTitle: -> new Disposable ->
+  onDidChangeModified: -> new Disposable ->
+
   initialize: ({@uri}) ->
     @atomVersion.text(atom.getVersion())
 
     @copyAtomVersion.on 'click', =>
       atom.clipboard.write(@atomVersion.text())
+
 
   serialize: ->
     deserializer: @constructor.name
