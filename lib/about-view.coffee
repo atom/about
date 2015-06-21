@@ -5,7 +5,7 @@ module.exports =
 class AboutView extends ScrollView
   @content: ->
     @div class: 'pane-item native-key-bindings about-atom', tabindex: -1, =>
-      @div class: 'panel', =>
+      @div class: 'about-container', =>
         @header class: 'atom-header', =>
           # Inline SVG so the logo can be styled with CSS
           @raw '<svg class="about-logo" width="330px" height="68px" viewBox="0 0 330 68" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
