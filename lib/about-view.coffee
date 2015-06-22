@@ -6,7 +6,7 @@ class AboutView extends ScrollView
   @content: ->
     @div class: 'pane-item native-key-bindings about-atom', tabindex: -1, =>
       @div class: 'about-container', =>
-        @header class: 'atom-header', =>
+        @header class: 'about-header', =>
           # Inline SVG so the logo can be styled with CSS
           @raw '<svg class="about-logo" width="330px" height="68px" viewBox="0 0 330 68" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
               <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -27,7 +27,7 @@ class AboutView extends ScrollView
               </g>
           </svg>'
           @div class: 'inline-block about-version-container', =>
-            @span class: 'atom-version', outlet: 'atomVersion'
+            @span class: 'about-version', outlet: 'atomVersion'
             @span outlet: 'copyAtomVersion', class: 'icon icon-clippy about-copy-version'
         @p class: 'about-note about-metrics', =>
           @raw '''
