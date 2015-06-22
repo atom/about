@@ -2,4 +2,4 @@
 
 Show useful information about Atom.
 
-![About screenshot](https://f.cloud.github.com/assets/69169/2290250/c35d867a-a017-11e3-86be-cd7c5bf3ff9b.gif)
+![About screenshot](https://raw.githubusercontent.com/mnquintana/atom-about/master/resources/about-atom.png)
