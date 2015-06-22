@@ -68,7 +68,11 @@
         }
 
         &:hover::before {
-          color: lighten(@text-color, 25%);
+          color: lighten(@text-color, 20%);
+        }
+
+        &:active::before {
+          color: lighten(@text-color, 30%);
         }
       }
 
