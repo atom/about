@@ -3,9 +3,9 @@
   "author": "Machisté N. Quintana <mnquintana@users.noreply.github.com>",
   "main": "./lib/about",
   "version": "0.0.0",
-  "description": "Shows useful information about Atom.",
+  "description": "View useful information about your Atom installation.",
   "keywords": [],
-  "repository": "https://github.com/mnquintana/about",
+  "repository": "https://github.com/mnquintana/atom-about",
   "license": "MIT",
   "engines": {
     "atom": ">=0.210.0 <2.0.0"
