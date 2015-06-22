@@ -28,7 +28,7 @@ class AboutView extends ScrollView
           </svg>'
           @div class: 'inline-block about-version-container', =>
             @span class: 'atom-version', outlet: 'atomVersion'
-            @button outlet: 'copyAtomVersion', class: 'btn icon icon-clippy'
+            @span outlet: 'copyAtomVersion', class: 'icon icon-clippy about-copy-version'
         @div class: 'credits', outlet: 'credits', =>
           @span class: 'icon icon-code'
           @span class: 'inline', ' with '

@@ -52,13 +52,26 @@
       align-items: center;
 
       .atom-version {
-        margin-right: 6px;
+        margin-right: 8px;
       }
 
       .btn {
         // TODO: Remove button from normal flow so its width won't be used when
         // centering.
       }
+
+      .about-copy-version{
+        &::before {
+          // The copy octicon hangs too low without bumping it up a bit
+          position: relative;
+          bottom: 1px;
+        }
+
+        &:hover::before {
+          color: lighten(@text-color, 25%);
+        }
+      }
+
     }
 
     button {
