@@ -29,6 +29,10 @@ class AboutView extends ScrollView
           @div class: 'inline-block about-version-container', outlet: 'copyAtomVersion', =>
             @span class: 'about-version', outlet: 'atomVersion'
             @span class: 'icon icon-clippy about-copy-version'
+        @div class: 'about-actions', =>
+          @div class: 'btn-group', =>
+            @button class: 'btn view-license', outlet: 'viewLicense', 'View License'
+            @button class: 'btn terms-of-use', outlet: 'viewTerms', 'Terms of Use'
         @p class: 'about-note about-metrics', =>
           @raw '''
               <strong>Note:</strong> To help us improve Atom, we anonymously
@@ -55,6 +59,8 @@ class AboutView extends ScrollView
     @copyAtomVersion.on 'click', =>
       atom.clipboard.write(@atomVersion.text())
 
+    @viewLicense.on 'click', =>
+      atom.commands.dispatch(atom.views.getView(atom.workspace), 'application:open-license')
 
   serialize: ->
     deserializer: @constructor.name
