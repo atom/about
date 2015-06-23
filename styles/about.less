@@ -1,4 +1,5 @@
 @import "ui-variables";
+@import "variables";
 
 .about-atom {
   display: flex;
@@ -40,6 +41,12 @@
 
   .about-header {
     text-align: center;
+
+    .about-atom-io:hover {
+      .about-logo {
+        color: @atom-green;
+      }
+    }
 
     .about-logo {
       display: block;
