@@ -60,6 +60,13 @@
       justify-content: center;
       align-items: center;
 
+      &:hover {
+        color: lighten(@text-color, 20%);
+      }
+
+      &:active {
+        color: lighten(@text-color, 30%);
+      }
       .about-version {
         margin-right: 8px;
       }
@@ -76,13 +83,6 @@
           bottom: 1px;
         }
 
-        &:hover::before {
-          color: lighten(@text-color, 20%);
-        }
-
-        &:active::before {
-          color: lighten(@text-color, 30%);
-        }
       }
 
     }
