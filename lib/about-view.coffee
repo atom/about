@@ -1,5 +1,6 @@
 {ScrollView} = require 'atom-space-pen-views'
 {Disposable} = require 'atom'
+shell = require 'shell'
 
 module.exports =
 class AboutView extends ScrollView
@@ -59,8 +60,12 @@ class AboutView extends ScrollView
     @copyAtomVersion.on 'click', =>
       atom.clipboard.write(@atomVersion.text())
 
-    @viewLicense.on 'click', =>
+    @viewLicense.on 'click', ->
       atom.commands.dispatch(atom.views.getView(atom.workspace), 'application:open-license')
+
+    @viewTerms.on 'click', ->
+      # TODO: De-dupe this and use `application:open-terms-of-use`
+      shell.openExternal 'https://help.github.com/articles/github-terms-of-service'
 
   serialize: ->
     deserializer: @constructor.name
