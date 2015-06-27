@@ -1,4 +1,5 @@
 About = require '../lib/about'
+{$} = require 'atom-space-pen-views'
 
 describe "About", ->
   workspaceElement = null
@@ -26,3 +27,16 @@ describe "About", ->
       runs ->
         aboutElement = workspaceElement.querySelector('.about-atom')
         expect(aboutElement).toBeVisible()
+
+  describe "when the version number is clicked", ->
+    it "copies the version number to the clipboard", ->
+      atom.commands.dispatch workspaceElement, 'about:about-atom'
+
+      waitsFor ->
+        atom.workspace.getActivePaneItem()
+
+      runs ->
+        aboutElement = workspaceElement.querySelector('.about-atom')
+        versionContainer = aboutElement.querySelector('.about-version-container')
+        $(versionContainer).click()
+        expect(atom.clipboard.read()).toBe atom.getVersion()
