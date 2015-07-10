@@ -44,13 +44,15 @@ class AboutView extends ScrollView
               package for details and instructions to disable it.
             '''
         @div class: 'about-credits', outlet: 'credits', =>
+          @span class: 'inline', 'Thanks to the '
+          @a href: 'https://github.com/atom/atom/contributors', 'Atom Community'
+
+        @div class: 'about-love', outlet: 'love', =>
           @span class: 'icon icon-code'
           @span class: 'inline', ' with '
           @span class: 'icon icon-heart'
           @span class: 'inline', ' by '
           @a class: 'icon icon-logo-github', href: 'https://github.com'
-          @span class: 'inline', ' and the '
-          @a href: 'https://github.com/atom/atom/contributors', 'Atom Community'
 
   onDidChangeTitle: -> new Disposable ->
   onDidChangeModified: -> new Disposable ->
