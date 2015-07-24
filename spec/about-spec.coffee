@@ -19,7 +19,7 @@ describe "About", ->
       jasmine.attachToDOM(workspaceElement)
 
       expect(workspaceElement.querySelector('.about')).not.toExist()
-      atom.commands.dispatch workspaceElement, 'application:about'
+      atom.workspace.open('atom://about')
 
       waitsFor ->
         atom.workspace.getActivePaneItem()
@@ -30,7 +30,7 @@ describe "About", ->
 
   describe "when the version number is clicked", ->
     it "copies the version number to the clipboard", ->
-      atom.commands.dispatch workspaceElement, 'application:about'
+      atom.workspace.open('atom://about')
 
       waitsFor ->
         atom.workspace.getActivePaneItem()
