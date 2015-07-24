@@ -5,7 +5,7 @@ shell = require 'shell'
 module.exports =
 class AboutView extends ScrollView
   @content: ->
-    @div class: 'pane-item native-key-bindings about-atom', tabindex: -1, =>
+    @div class: 'pane-item native-key-bindings about', tabindex: -1, =>
       @div class: 'about-container', =>
         @header class: 'about-header', =>
           @a class: 'about-atom-io', href: 'https://atom.io/', =>

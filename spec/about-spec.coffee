@@ -18,14 +18,14 @@ describe "About", ->
       # workspaceElement to the DOM are generally slower than those off DOM.
       jasmine.attachToDOM(workspaceElement)
 
-      expect(workspaceElement.querySelector('.about-atom')).not.toExist()
+      expect(workspaceElement.querySelector('.about')).not.toExist()
       atom.commands.dispatch workspaceElement, 'about:about-atom'
 
       waitsFor ->
         atom.workspace.getActivePaneItem()
 
       runs ->
-        aboutElement = workspaceElement.querySelector('.about-atom')
+        aboutElement = workspaceElement.querySelector('.about')
         expect(aboutElement).toBeVisible()
 
   describe "when the version number is clicked", ->
@@ -36,7 +36,7 @@ describe "About", ->
         atom.workspace.getActivePaneItem()
 
       runs ->
-        aboutElement = workspaceElement.querySelector('.about-atom')
+        aboutElement = workspaceElement.querySelector('.about')
         versionContainer = aboutElement.querySelector('.about-version-container')
         $(versionContainer).click()
         expect(atom.clipboard.read()).toBe atom.getVersion()
