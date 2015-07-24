@@ -7,7 +7,7 @@ aboutURI = 'atom://about'
 
 createAboutView = (state) ->
   AboutView ?= require './about-view'
-  aboutView ?= new AboutView(state)
+  aboutView = new AboutView(state)
   aboutView
 
 atom.deserializers.add
