@@ -1,11 +1,11 @@
 # About
 
-[![Build Status](https://travis-ci.org/mnquintana/atom-about.svg?branch=master)](https://travis-ci.org/mnquintana/atom-about)
-[![Dependency Status](https://david-dm.org/mnquintana/atom-about.svg)](https://david-dm.org/mnquintana/atom-about)
+[![Build Status](https://travis-ci.org/atom/about.svg?branch=master)](https://travis-ci.org/atom/about)
+[![Dependency Status](https://david-dm.org/atom/about.svg)](https://david-dm.org/atom/about)
 
 View useful information about your Atom installation.
 
-![About screenshot](https://raw.githubusercontent.com/mnquintana/atom-about/master/resources/about-atom.png)
+![About screenshot](https://raw.githubusercontent.com/atom/about/master/resources/about-atom.png)
 
 This is a package for [Atom](https://atom.io), a hackable text editor for the 21st Century.
 
@@ -21,4 +21,4 @@ has some extra information.
 
 ## License
 
-[MIT License](http://opensource.org/licenses/MIT) - see the [LICENSE](https://github.com/mnquintana/atom-about/blob/master/LICENSE.md) for more details.
+[MIT License](http://opensource.org/licenses/MIT) - see the [LICENSE](https://github.com/atom/about/blob/master/LICENSE.md) for more details.
