@@ -40,7 +40,7 @@ class AboutView extends ScrollView
               <strong>Note:</strong> To help us improve Atom, we anonymously
               track usage metrics, such as launch time, screen size, and current
               version. See the
-              <a href="https://github.com/atom/metrics" data-event="atom-metrics">atom/metrics</a>
+              <a class="metrics-open" data-event="atom-metrics">atom/metrics</a>
               package for details and instructions to disable it.
             '''
         @div class: 'about-credits', outlet: 'credits', =>
@@ -69,6 +69,9 @@ class AboutView extends ScrollView
     @viewTerms.on 'click', ->
       # TODO: De-dupe this and use `application:open-terms-of-use`
       shell.openExternal 'https://help.github.com/articles/github-terms-of-service'
+
+    @on 'click', '.metrics-open', ->
+      atom.workspace.open('atom://config/packages/metrics')
 
   serialize: ->
     deserializer: @constructor.name
