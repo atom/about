@@ -1,5 +1,6 @@
 @import "ui-variables";
 @import "variables";
+@import "three";
 
 .about {
   display: flex;
@@ -63,6 +64,8 @@
     }
 
     .about-version-container {
+      vertical-align: middle;
+
       &:hover {
         color: lighten(@text-color, 15%);
       }
@@ -72,6 +75,7 @@
       }
       .about-version {
         margin-right: 8px;
+        margin-left: 8px;
       }
 
       // TODO: Remove copy icon from normal flow so its width won't be used when
@@ -82,12 +86,19 @@
           // The copy octicon hangs too low without bumping it up a bit
           position: relative;
           bottom: 1px;
+          margin-right: 7px;
         }
-
       }
 
-    }
+      .update-checked{
+          -webkit-transition: opacity 1s;
+          opacity: 0;
+      }
 
+      .update-checked.updated {
+          opacity: 1.0;
+      }
+    }
     button {
       font-size: 1em;
     }
@@ -98,7 +109,7 @@
   }
 
   .about-actions {
-    margin-top: 3em;
+    margin-top: 1.5em;
     font-size: .86em;
     text-align: center;
   }
