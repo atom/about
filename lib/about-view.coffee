@@ -2,7 +2,6 @@
 {Disposable} = require 'atom'
 shell = require 'shell'
 
-module.exports =
 class AboutView extends ScrollView
   @content: ->
     @div class: 'pane-item native-key-bindings about', tabindex: -1, =>
@@ -78,7 +77,7 @@ class AboutView extends ScrollView
       atom.workspace.open('atom://config/packages/metrics')
 
   serialize: ->
-    deserializer: @constructor.name
+    deserializer: 'AboutView'
     uri: @getURI()
 
   getURI: -> @uri
@@ -86,3 +85,6 @@ class AboutView extends ScrollView
   getTitle: -> 'About'
 
   getIconName: -> 'info'
+
+module.exports = (state) ->
+  new AboutView(state)
