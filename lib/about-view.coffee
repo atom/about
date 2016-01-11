@@ -33,7 +33,8 @@ class AboutView extends ScrollView
             @span class: 'icon icon-clippy about-copy-version'
         @div class: 'about-actions', =>
           @div class: 'btn-group', =>
-            @button class: 'btn view-license', outlet: 'viewLicense', 'View License'
+            @button class: 'btn view-release-notes', outlet: 'viewReleaseNotes', 'Release Notes'
+            @button class: 'btn view-license', outlet: 'viewLicense', 'License'
             @button class: 'btn terms-of-use', outlet: 'viewTerms', 'Terms of Use'
         @p class: 'about-note about-metrics', =>
           @raw '''
@@ -69,6 +70,9 @@ class AboutView extends ScrollView
     @viewTerms.on 'click', ->
       # TODO: De-dupe this and use `application:open-terms-of-use`
       shell.openExternal 'https://help.github.com/articles/github-terms-of-service'
+
+    @viewReleaseNotes.on 'click', ->
+      shell.openExternal 'https://atom.io/releases'
 
     @on 'click', '.metrics-open', ->
       atom.workspace.open('atom://config/packages/metrics')
