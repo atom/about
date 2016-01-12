@@ -40,3 +40,38 @@ describe "About", ->
         versionContainer = aboutElement.querySelector('.about-version-container')
         $(versionContainer).click()
         expect(atom.clipboard.read()).toBe atom.getVersion()
+
+triggerUpdate = ->
+  atom.commands.dispatch(atom.views.getView(atom.workspace), 'window:update-available', ['v22.0.0'])
+
+describe "the status bar", ->
+  workspaceElement = null
+
+  beforeEach ->
+    spyOn(atom, 'isReleasedVersion').andReturn(true)
+
+    workspaceElement = atom.views.getView(atom.workspace)
+
+    waitsForPromise ->
+      atom.packages.activatePackage('status-bar')
+
+    waitsForPromise ->
+      atom.packages.activatePackage('about')
+
+  describe "with no update", ->
+    it "does not show the view", ->
+      expect(workspaceElement).not.toContain('.about-release-notes')
+
+  describe "with an update", ->
+    it "shows the view when the update is made available", ->
+      triggerUpdate()
+      expect(workspaceElement).toContain('.about-release-notes')
+
+    describe "clicking on the status", ->
+      it "opens the release notes", ->
+        triggerUpdate()
+        expect(workspaceElement).toContain('.about-release-notes')
+
+        dispatchCall = spyOn(atom.commands, 'dispatch')
+        $(workspaceElement).find('.about-release-notes').trigger('click')
+        expect(dispatchCall.mostRecentCall.args[1]).toBe 'about:view-release-notes'
