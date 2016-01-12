@@ -80,6 +80,6 @@ describe "the status bar", ->
         triggerUpdate()
         expect(workspaceElement).toContain('.about-release-notes')
 
-        # dispatchCall = spyOn(atom.commands, 'dispatch')
-        # $(workspaceElement).find('.about-release-notes').trigger('click')
-        # expect(dispatchCall.mostRecentCall.args[1]).toBe 'about:view-release-notes'
+        dispatchCall = spyOn(atom.commands, 'dispatch')
+        $(workspaceElement).find('.about-release-notes').trigger('click')
+        expect(dispatchCall.mostRecentCall.args[1]).toBe 'about:view-release-notes'
