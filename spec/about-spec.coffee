@@ -58,11 +58,15 @@ describe "the status bar", ->
     waitsForPromise ->
       atom.packages.activatePackage('about')
 
+  afterEach ->
+    atom.packages.deactivatePackage('about')
+    atom.packages.deactivatePackage('status-bar')
+
   describe "with no update", ->
     it "does not show the view", ->
       expect(workspaceElement).not.toContain('.about-release-notes')
 
-  xdescribe "with an update", ->
+  describe "with an update", ->
     it "shows the view when the update is made available", ->
       triggerUpdate()
       expect(workspaceElement).toContain('.about-release-notes')
