@@ -18,6 +18,13 @@
     "coffeelint": "^1.9.7",
     "standard": "^5.4.1"
   },
+  "consumedServices": {
+    "status-bar": {
+      "versions": {
+        "^1.0.0": "consumeStatusBar"
+      }
+    }
+  },
   "standard": {
     "ignore": [],
     "parser": "babel-eslint",
