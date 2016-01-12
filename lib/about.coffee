@@ -16,6 +16,7 @@ atom.deserializers.add
 module.exports = About =
   activate: ->
     @subscriptions = new CompositeDisposable
+    @updateAvailable = false
 
     @subscriptions.add atom.workspace.addOpener (uriToOpen) ->
       createAboutView(uri: uriToOpen) if uriToOpen is aboutURI
