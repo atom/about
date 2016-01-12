@@ -37,9 +37,10 @@ module.exports = About =
     @showStatusBarIfNeeded()
 
   showStatusBarIfNeeded: ->
-    return unless @updateAvailable and @statusBar? and not @statusBarView?
+    return unless @updateAvailable and @statusBar?
 
     StatusBarView ?= require './about-status-bar'
 
+    @statusBarView?.remove()
     @statusBarView = new StatusBarView()
     @statusBar.addRightTile(item: @statusBarView, priority: -100)
