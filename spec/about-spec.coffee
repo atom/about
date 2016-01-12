@@ -1,3 +1,4 @@
+shell = require 'shell'
 About = require '../lib/about'
 {$} = require 'atom-space-pen-views'
 
@@ -79,6 +80,6 @@ describe "the status bar", ->
         triggerUpdate()
         expect(workspaceElement).toContain('.about-release-notes')
 
-        dispatchCall = spyOn(atom.commands, 'dispatch')
+        releaseNotesCall = spyOn(shell, 'openExternal')
         $(workspaceElement).find('.about-release-notes').trigger('click')
-        expect(dispatchCall.mostRecentCall.args[1]).toBe 'about:view-release-notes'
+        expect(releaseNotesCall.mostRecentCall.args[0]).toBe 'https://atom.io/releases'
