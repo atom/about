@@ -67,7 +67,7 @@ describe "the status bar", ->
       triggerUpdate()
       expect(workspaceElement).toContain('.about-release-notes')
 
-    describe "clicking on the status", ->
+    xdescribe "clicking on the status", ->
       it "opens the release notes", ->
         triggerUpdate()
         expect(workspaceElement).toContain('.about-release-notes')
