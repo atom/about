@@ -51,6 +51,7 @@ describe "the status bar", ->
     spyOn(atom, 'isReleasedVersion').andReturn(true)
 
     workspaceElement = atom.views.getView(atom.workspace)
+    jasmine.attachToDOM(workspaceElement)
 
     waitsForPromise ->
       atom.packages.activatePackage('status-bar')
