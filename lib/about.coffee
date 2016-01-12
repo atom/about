@@ -1,6 +1,7 @@
 {CompositeDisposable} = require 'atom'
 
 AboutView = null
+StatusBarView = null
 
 aboutURI = 'atom://about'
 
@@ -22,5 +23,23 @@ module.exports = About =
     @subscriptions.add atom.commands.add 'atom-workspace', 'about:view-release-notes', ->
       require('shell').openExternal('https://atom.io/releases')
 
+    if atom.isReleasedVersion()
+      @subscriptions.add atom.commands.add 'atom-workspace', 'window:update-available', (event) ->
+        @updateAvailable = true
+        @showStatusBarIfNeeded()
+
   deactivate: ->
     @subscriptions.dispose()
+    @statusBarView?.remove()
+
+  consumeStatusBar: (statusBar) ->
+    @statusBar = statusBar
+    @showStatusBarIfNeeded()
+
+  showStatusBarIfNeeded: ->
+    return unless @updateAvailable and @statusBar? and not @statusBarView?
+
+    StatusBarView ?= require './about-status-bar'
+
+    @statusBarView = new StatusBarView()
+    @statusBar.addRightTile(item: @statusBarView, priority: -100)
