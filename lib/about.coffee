@@ -24,7 +24,7 @@ module.exports = About =
       require('shell').openExternal('https://atom.io/releases')
 
     if atom.isReleasedVersion()
-      @subscriptions.add atom.commands.add 'atom-workspace', 'window:update-available', (event) ->
+      @subscriptions.add atom.commands.add 'atom-workspace', 'window:update-available', =>
         @updateAvailable = true
         @showStatusBarIfNeeded()
 
