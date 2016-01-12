@@ -19,5 +19,8 @@ module.exports = About =
     @subscriptions.add atom.workspace.addOpener (uriToOpen) ->
       createAboutView(uri: uriToOpen) if uriToOpen is aboutURI
 
+    @subscriptions.add atom.commands.add 'atom-workspace', 'about:view-release-notes', ->
+      require('shell').openExternal('https://atom.io/releases')
+
   deactivate: ->
     @subscriptions.dispose()

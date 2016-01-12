@@ -72,7 +72,7 @@ class AboutView extends ScrollView
       shell.openExternal 'https://help.github.com/articles/github-terms-of-service'
 
     @viewReleaseNotes.on 'click', ->
-      shell.openExternal 'https://atom.io/releases'
+      atom.commands.dispatch(atom.views.getView(atom.workspace), 'about:view-release-notes')
 
     @on 'click', '.metrics-open', ->
       atom.workspace.open('atom://config/packages/metrics')
