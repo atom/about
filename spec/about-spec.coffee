@@ -62,12 +62,12 @@ describe "the status bar", ->
     it "does not show the view", ->
       expect(workspaceElement).not.toContain('.about-release-notes')
 
-  describe "with an update", ->
+  xdescribe "with an update", ->
     it "shows the view when the update is made available", ->
       triggerUpdate()
       expect(workspaceElement).toContain('.about-release-notes')
 
-    xdescribe "clicking on the status", ->
+    describe "clicking on the status", ->
       it "opens the release notes", ->
         triggerUpdate()
         expect(workspaceElement).toContain('.about-release-notes')
