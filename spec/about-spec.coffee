@@ -43,7 +43,7 @@ describe "About", ->
         expect(atom.clipboard.read()).toBe atom.getVersion()
 
 triggerUpdate = ->
-  atom.commands.dispatch(atom.views.getView(atom.workspace), 'window:update-available', ['v22.0.0'])
+  atom.updateAvailable({releaseVersion: '42'})
 
 describe "the status bar", ->
   workspaceElement = null
