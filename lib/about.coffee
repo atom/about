@@ -31,7 +31,7 @@ module.exports = About =
 
   deactivate: ->
     @subscriptions.dispose()
-    @statusBarView?.remove()
+    @statusBarTile?.destroy()
 
   consumeStatusBar: (statusBar) ->
     @statusBar = statusBar
@@ -42,6 +42,5 @@ module.exports = About =
 
     StatusBarView ?= require './about-status-bar'
 
-    @statusBarView?.remove()
-    @statusBarView = new StatusBarView()
-    @statusBar.addRightTile(item: @statusBarView, priority: -100)
+    @statusBarTile?.destroy()
+    @statusBarTile = @statusBar.addRightTile(item: new StatusBarView(), priority: -100)
