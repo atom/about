@@ -14,6 +14,22 @@
     "atom-space-pen-views": "^2.0.5"
   },
   "devDependencies": {
-    "coffeelint": "^1.9.7"
+    "babel-eslint": "^4.1.6",
+    "coffeelint": "^1.9.7",
+    "standard": "^5.4.1"
+  },
+  "consumedServices": {
+    "status-bar": {
+      "versions": {
+        "^1.0.0": "consumeStatusBar"
+      }
+    }
+  },
+  "standard": {
+    "ignore": [],
+    "parser": "babel-eslint",
+    "globals": [
+      "atom"
+    ]
   }
 }
