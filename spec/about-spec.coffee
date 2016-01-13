@@ -49,6 +49,10 @@ describe "the status bar", ->
   workspaceElement = null
 
   beforeEach ->
+    storage = {}
+    spyOn(localStorage, 'setItem').andCallFake (key, value) -> storage[key] = value
+    spyOn(localStorage, 'getItem').andCallFake (key) -> storage[key]
+
     spyOn(atom, 'isReleasedVersion').andReturn(true)
 
     workspaceElement = atom.views.getView(atom.workspace)
