@@ -42,8 +42,8 @@ describe "About", ->
         $(versionContainer).click()
         expect(atom.clipboard.read()).toBe atom.getVersion()
 
-triggerUpdate = ->
-  atom.updateAvailable({releaseVersion: '42'})
+triggerUpdate = (version) ->
+  atom.updateAvailable({releaseVersion: version})
 
 describe "the status bar", ->
   workspaceElement = null
@@ -76,14 +76,37 @@ describe "the status bar", ->
 
   describe "with an update", ->
     it "shows the view when the update is made available", ->
-      triggerUpdate()
+      triggerUpdate('42')
       expect(workspaceElement).toContain('.about-release-notes')
 
     describe "clicking on the status", ->
       it "opens the release notes", ->
-        triggerUpdate()
+        triggerUpdate('42')
         expect(workspaceElement).toContain('.about-release-notes')
 
         releaseNotesCall = spyOn(shell, 'openExternal')
         $(workspaceElement).find('.about-release-notes').trigger('click')
         expect(releaseNotesCall.mostRecentCall.args[0]).toBe 'https://atom.io/releases'
+
+    it "continues to show the squirrel until Atom is updated to the new version", ->
+      triggerUpdate('42')
+      expect(workspaceElement).toContain('.about-release-notes')
+
+      runs ->
+        atom.packages.deactivatePackage('about')
+        expect(workspaceElement).not.toContain('.about-release-notes')
+
+      waitsForPromise -> atom.packages.activatePackage('about')
+      waits(1) # Service consumption hooks are deferred until the next tick
+      runs -> expect(workspaceElement).toContain('.about-release-notes')
+
+      runs ->
+        atom.packages.deactivatePackage('about')
+        expect(workspaceElement).not.toContain('.about-release-notes')
+
+      runs ->
+        spyOn(atom, 'getVersion').andReturn('42')
+
+      waitsForPromise -> atom.packages.activatePackage('about')
+      waits(1) # Service consumption hooks are deferred until the next tick
+      runs -> expect(workspaceElement).not.toContain('.about-release-notes')
