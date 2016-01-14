@@ -25,7 +25,7 @@ module.exports = About =
       createAboutView(uri: uriToOpen) if uriToOpen is aboutURI
 
     @subscriptions.add atom.commands.add 'atom-workspace', 'about:view-release-notes', ->
-      require('shell').openExternal('https://atom.io/releases')
+      require('shell').openExternal('https://github.com/atom/atom/releases/tag/v'+atom.getVersion())
 
     availableVersion = localStorage.getItem(AvailableUpdateVersion)
     localStorage.removeItem(AvailableUpdateVersion) if availableVersion is atom.getVersion()
