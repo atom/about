@@ -33,110 +33,111 @@
     font-size: 1.5em;
     width: auto;
   }
+}
 
-  .about-container {
-    width: 100%;
-    max-width: 500px;
-  }
+.about-container {
+  width: 100%;
+  max-width: 500px;
+}
 
-  .about-header {
-    text-align: center;
+.about-header {
+  text-align: center;
 
-    .about-atom-io:hover {
-      .about-logo {
-        color: @atom-green;
-      }
-    }
-
+  .about-atom-io:hover {
     .about-logo {
-      display: block;
-      width: 100%;
-      max-width: 280px;
-      margin: 0 auto 0.4em auto;
-      color: @text-color-highlight;
-      transition: color 0.2s;
+      color: @atom-green;
+    }
+  }
+
+  .about-logo {
+    display: block;
+    width: 100%;
+    max-width: 280px;
+    margin: 0 auto 0.4em auto;
+    color: @text-color-highlight;
+    transition: color 0.2s;
+  }
+
+  .about-heading {
+    font-size: 1.5em;
+    font-weight: bold;
+  }
+
+  .about-version-container {
+    &:hover {
+      color: lighten(@text-color, 15%);
     }
 
-    .about-heading {
-      font-size: 1.5em;
-      font-weight: bold;
+    &:active {
+      color: lighten(@text-color, 30%);
+    }
+    .about-version {
+      margin-right: 8px;
     }
 
-    .about-version-container {
-      &:hover {
-        color: lighten(@text-color, 15%);
+    // TODO: Remove copy icon from normal flow so its width won't be used when
+    // centering.
+
+    .about-copy-version{
+      &::before {
+        // The copy octicon hangs too low without bumping it up a bit
+        position: relative;
+        bottom: 1px;
       }
 
-      &:active {
-        color: lighten(@text-color, 30%);
-      }
-      .about-version {
-        margin-right: 8px;
-      }
-
-      // TODO: Remove copy icon from normal flow so its width won't be used when
-      // centering.
-
-      .about-copy-version{
-        &::before {
-          // The copy octicon hangs too low without bumping it up a bit
-          position: relative;
-          bottom: 1px;
-        }
-
-      }
-
     }
 
-    button {
-      font-size: 1em;
-    }
-
-    .icon::before {
-      font-size: 1em;
-    }
   }
 
-  .about-actions {
-    margin-top: 3em;
-    font-size: .86em;
-    text-align: center;
+  button {
+    font-size: 1em;
   }
 
-  .about-note {
-    font-size: .86em;
-    color: @text-color-subtle;
+  .icon::before {
+    font-size: 1em;
+  }
+}
+
+.about-actions {
+  margin-top: 3em;
+  font-size: .86em;
+  text-align: center;
+}
+
+.about-note {
+  font-size: .86em;
+  color: @text-color-subtle;
+}
+
+.about-metrics {
+  margin-top: 2em;
+}
+
+.about-credits {
+  margin-top: 40px;
+  text-align: center;
+}
+
+.about-love {
+  margin-top: 40px;
+  text-align: center;
+  font-size: .86em;
+
+  .icon::before {
+    // Make these octicons look good inlined with text
+    position: relative;
+    top: 1px;
   }
 
-  .about-metrics {
-    margin-top: 2em;
-  }
-
-  .about-credits {
-    margin-top: 40px;
-    text-align: center;
-  }
-
-  .about-love {
-    margin-top: 40px;
-    text-align: center;
-    font-size: .86em;
-
-    .icon::before {
-      // Make these octicons look good inlined with text
-      position: relative;
-      top: 1px;
-    }
-
-    .icon-logo-github::before {
-      // This Octicon has a lot of extra whitespace at the bottom, so it needs
-      // to be moved down more to compensate.
-      // See https://github.com/github/octicons/issues/59
-      top: 3px;
-    }
+  .icon-logo-github::before {
+    // This Octicon has a lot of extra whitespace at the bottom, so it needs
+    // to be moved down more to compensate.
+    // See https://github.com/github/octicons/issues/59
+    top: 3px;
   }
 }
 
 .about-release-notes {
+  // the blue squirrel
   color: @background-color-info;
 }
