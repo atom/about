@@ -33,11 +33,48 @@ class AboutView extends ScrollView
             @span class: 'about-version-container inline-block', outlet: 'copyAtomVersion', =>
               @span class: 'about-version', outlet: 'atomVersion'
               @span class: 'icon icon-clippy about-copy-version'
-            @span class: 'view-release-notes', outlet: 'viewReleaseNotes', 'Release Notes'
+            @a class: 'view-release-notes', outlet: 'viewReleaseNotes', 'Release Notes'
+
+        @div class: 'about-updates', =>
+          @div class: 'about-updates-box', =>
+            @div class: 'about-updates-status', =>
+
+              @div class: 'about-updates-item is-shown', =>
+                @span class: 'icon icon-check'
+                @span class: 'about-updates-label is-strong', 'Atom is up to date!'
+
+              @div class: 'about-updates-item', =>
+                @span class: 'about-updates-label icon icon-search', 'Checking for updates...'
+
+              @div class: 'about-updates-item', =>
+                @span class: 'loading loading-spinner-tiny inline-block'
+                @span class: 'about-updates-label', 'Downloading'
+                @span class: 'about-updates-version', '1.5.0'
+                @a class: 'about-updates-release-notes', 'Release Notes'
+
+              @div class: 'about-updates-item', =>
+                @span class: 'about-updates-label icon icon-squirrel', 'New update'
+                @span class: 'about-updates-version', '1.5.0'
+                @span class: 'about-updates-label', 'downloaded'
+                @a class: 'about-updates-release-notes', 'Release Notes'
+
+              @div class: 'about-updates-item', =>
+                @span class: 'about-updates-label icon icon-squirrel', 'New update'
+                @span class: 'about-updates-version', '1.5.0'
+                @span class: 'about-updates-label', 'available'
+                @a class: 'about-updates-release-notes', 'Release Notes'
+
+            @button class: 'btn', 'Check for updates'
+            # @button class: 'btn disabled', 'Check for updates'
+            # @button class: 'btn', 'Cancel'
+            # @button class: 'btn', 'Restart'
+            # @button class: 'btn', 'Download'
+
         @div class: 'about-actions', =>
           @div class: 'btn-group', =>
             @button class: 'btn view-license', outlet: 'viewLicense', 'License'
             @button class: 'btn terms-of-use', outlet: 'viewTerms', 'Terms of Use'
+
         @p class: 'about-note about-metrics', =>
           @raw '''
               <strong>Note:</strong> To help us improve Atom, we anonymously
