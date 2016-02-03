@@ -70,6 +70,11 @@ class AboutView extends ScrollView
             # @button class: 'btn', 'Restart'
             # @button class: 'btn', 'Download'
 
+          @div class: 'about-auto-updates', =>
+            @label class:'', =>
+              @input type: 'checkbox', checked: true
+              @span 'Automatically download updates'
+
         @div class: 'about-actions', =>
           @div class: 'btn-group', =>
             @button class: 'btn view-license', outlet: 'viewLicense', 'License'
