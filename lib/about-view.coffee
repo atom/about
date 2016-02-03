@@ -44,9 +44,6 @@ class AboutView extends ScrollView
               <a class="metrics-open" data-event="atom-metrics">atom/metrics</a>
               package for details and instructions to disable it.
             '''
-        @div class: 'about-credits', outlet: 'credits', =>
-          @span class: 'inline', 'Thanks to the '
-          @a href: 'https://github.com/atom/atom/contributors', 'Atom Community'
 
         @div class: 'about-love', outlet: 'love', =>
           @span class: 'icon icon-code'
@@ -54,6 +51,10 @@ class AboutView extends ScrollView
           @span class: 'icon icon-heart'
           @span class: 'inline', ' by '
           @a class: 'icon icon-logo-github', href: 'https://github.com'
+
+        @div class: 'about-credits', outlet: 'credits', =>
+          @span class: 'inline', 'And the awesome '
+          @a href: 'https://github.com/atom/atom/contributors', 'Atom Community'
 
   onDidChangeTitle: -> new Disposable ->
   onDidChangeModified: -> new Disposable ->
