@@ -53,7 +53,7 @@
     display: block;
     width: 100%;
     max-width: 280px;
-    margin: 0 auto 0.4em auto;
+    margin: 0 auto 15px auto;
     color: @text-color-highlight;
     transition: color 0.2s;
   }
@@ -63,39 +63,46 @@
     font-weight: bold;
   }
 
+  .about-version-label {
+    font-size: .86em;
+    color: @text-color-subtle;
+    margin-right: 8px;
+  }
+
   .about-version-container {
     &:hover {
       color: lighten(@text-color, 15%);
     }
-
     &:active {
       color: lighten(@text-color, 30%);
     }
+
     .about-version {
       margin-right: 8px;
+      font-size: 1.1em;
+      vertical-align: middle;
     }
 
-    // TODO: Remove copy icon from normal flow so its width won't be used when
-    // centering.
-
-    .about-copy-version{
-      &::before {
-        // The copy octicon hangs too low without bumping it up a bit
+    .about-copy-version::before {
         position: relative;
-        bottom: 1px;
-      }
-
+        font-size: 16px;
     }
 
   }
 
-  button {
-    font-size: 1em;
+  .view-release-notes {
+    font-size: .86em;
+    vertical-align: middle;
+    cursor: pointer;
+    margin-left: 15px;
+    &:hover {
+      color: lighten(@text-color, 15%);
+    }
+    &:active {
+      color: lighten(@text-color, 30%);
+    }
   }
 
-  .icon::before {
-    font-size: 1em;
-  }
 }
 
 .about-actions {

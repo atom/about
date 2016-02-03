@@ -28,12 +28,14 @@ class AboutView extends ScrollView
                     </g>
                 </g>
             </svg>'
-          @div class: 'inline-block about-version-container', outlet: 'copyAtomVersion', =>
-            @span class: 'about-version', outlet: 'atomVersion'
-            @span class: 'icon icon-clippy about-copy-version'
+          @div class: 'about-header-info', =>
+            @span class: 'about-version-label', 'Version'
+            @span class: 'about-version-container inline-block', outlet: 'copyAtomVersion', =>
+              @span class: 'about-version', outlet: 'atomVersion'
+              @span class: 'icon icon-clippy about-copy-version'
+            @span class: 'view-release-notes', outlet: 'viewReleaseNotes', 'Release Notes'
         @div class: 'about-actions', =>
           @div class: 'btn-group', =>
-            @button class: 'btn view-release-notes', outlet: 'viewReleaseNotes', 'Release Notes'
             @button class: 'btn view-license', outlet: 'viewLicense', 'License'
             @button class: 'btn terms-of-use', outlet: 'viewTerms', 'Terms of Use'
         @p class: 'about-note about-metrics', =>
