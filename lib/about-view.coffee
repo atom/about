@@ -74,12 +74,7 @@ class AboutView extends ScrollView
               @input type: 'checkbox', checked: true
               @span 'Automatically download updates'
 
-        @div class: 'about-actions group-start', =>
-          @div class: 'btn-group', =>
-            @button class: 'btn view-license', outlet: 'viewLicense', 'License'
-            @button class: 'btn terms-of-use', outlet: 'viewTerms', 'Terms of Use'
-
-        @p class: 'about-metrics group-item', =>
+        @p class: 'about-metrics group-start', =>
           @raw '''
               <strong>Note:</strong> To help us improve Atom, we anonymously
               track usage metrics, such as launch time, screen size, and current
@@ -87,6 +82,11 @@ class AboutView extends ScrollView
               <a class="metrics-open" data-event="atom-metrics">atom/metrics</a>
               package for details and instructions to disable it.
             '''
+
+        @div class: 'about-actions group-item', =>
+          @div class: 'btn-group', =>
+            @button class: 'btn view-license', outlet: 'viewLicense', 'License'
+            @button class: 'btn terms-of-use', outlet: 'viewTerms', 'Terms of Use'
 
         @div class: 'about-love group-start', outlet: 'love', =>
           @span class: 'icon icon-code'
