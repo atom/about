@@ -33,9 +33,9 @@ class AboutView extends ScrollView
             @span class: 'about-version-container inline-block', outlet: 'copyAtomVersion', =>
               @span class: 'about-version', outlet: 'atomVersion'
               @span class: 'icon icon-clippy about-copy-version'
-            @a class: 'view-release-notes', outlet: 'viewReleaseNotes', 'Release Notes'
+            @a class: 'about-header-release-notes', outlet: 'viewReleaseNotes', 'Release Notes'
 
-        @div class: 'about-updates', =>
+        @div class: 'about-updates group-start', =>
           @div class: 'about-updates-box', =>
             @div class: 'about-updates-status', =>
 
@@ -75,12 +75,12 @@ class AboutView extends ScrollView
               @input type: 'checkbox', checked: true
               @span 'Automatically download updates'
 
-        @div class: 'about-actions', =>
+        @div class: 'about-actions group-start', =>
           @div class: 'btn-group', =>
             @button class: 'btn view-license', outlet: 'viewLicense', 'License'
             @button class: 'btn terms-of-use', outlet: 'viewTerms', 'Terms of Use'
 
-        @p class: 'about-note about-metrics', =>
+        @p class: 'about-metrics group-item', =>
           @raw '''
               <strong>Note:</strong> To help us improve Atom, we anonymously
               track usage metrics, such as launch time, screen size, and current
@@ -89,14 +89,14 @@ class AboutView extends ScrollView
               package for details and instructions to disable it.
             '''
 
-        @div class: 'about-love', outlet: 'love', =>
+        @div class: 'about-love group-start', outlet: 'love', =>
           @span class: 'icon icon-code'
           @span class: 'inline', ' with '
           @span class: 'icon icon-heart'
           @span class: 'inline', ' by '
           @a class: 'icon icon-logo-github', href: 'https://github.com'
 
-        @div class: 'about-credits', outlet: 'credits', =>
+        @div class: 'about-credits group-item', outlet: 'credits', =>
           @span class: 'inline', 'And the awesome '
           @a href: 'https://github.com/atom/atom/contributors', 'Atom Community'
 
