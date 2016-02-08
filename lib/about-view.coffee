@@ -1,6 +1,7 @@
 {ScrollView} = require 'atom-space-pen-views'
 {Disposable} = require 'atom'
 shell = require 'shell'
+Update = require './update'
 
 module.exports =
 class AboutView extends ScrollView
@@ -42,22 +43,22 @@ class AboutView extends ScrollView
                 @span class: 'icon icon-check'
                 @span class: 'about-updates-label is-strong', 'Atom is up to date!'
 
-              @div class: 'about-updates-item', =>
+              @div class: 'about-updates-item', outlet: 'checkingForUpdates', =>
                 @span class: 'about-updates-label icon icon-search', 'Checking for updates...'
 
-              @div class: 'about-updates-item', =>
+              @div class: 'about-updates-item', outlet: 'downloadingUpdate', =>
                 @span class: 'loading loading-spinner-tiny inline-block'
                 @span class: 'about-updates-label', 'Downloading'
                 @span class: 'about-updates-version', '1.5.0'
                 @a class: 'about-updates-release-notes', 'Release Notes'
 
-              @div class: 'about-updates-item', =>
+              @div class: 'about-updates-item', outlet: 'updateDownloaded', =>
                 @span class: 'about-updates-label icon icon-squirrel', 'New update'
                 @span class: 'about-updates-version', '1.5.0'
                 @span class: 'about-updates-label', 'downloaded'
                 @a class: 'about-updates-release-notes', 'Release Notes'
 
-              @div class: 'about-updates-item', =>
+              @div class: 'about-updates-item', outlet: 'updateAvailable', =>
                 @span class: 'about-updates-label icon icon-squirrel', 'New update'
                 @span class: 'about-updates-version', '1.5.0'
                 @span class: 'about-updates-label', 'available'
@@ -70,7 +71,7 @@ class AboutView extends ScrollView
             # @button class: 'btn', 'Download'
 
           @div class: 'about-auto-updates', =>
-            @label class:'', =>
+            @label class: '', =>
               @input type: 'checkbox', checked: true
               @span 'Automatically download updates'
 
@@ -102,9 +103,13 @@ class AboutView extends ScrollView
   onDidChangeTitle: -> new Disposable ->
   onDidChangeModified: -> new Disposable ->
 
-  initialize: ({@uri}) ->
+  initialize: ({@uri, @update}) ->
     @atomVersion.text(atom.getVersion())
+    @atomUpdate ?= atom.update
+    @handleUIEvents()
+    @handleUpdateEvents()
 
+  handleUIEvents: () ->
     @copyAtomVersion.on 'click', =>
       atom.clipboard.write(@atomVersion.text())
 
@@ -120,6 +125,28 @@ class AboutView extends ScrollView
 
     @on 'click', '.metrics-open', ->
       atom.workspace.open('atom://config/packages/metrics')
+
+  handleUpdateEvents: ->
+    @atomUpdate.onDidBeginCheckingForUpdate =>
+      @find('.about-updates-item').removeClass('is-shown')
+      @checkingForUpdates.addClass('is-shown')
+
+    @atomUpdate.onDidBeginDownload =>
+      @find('.about-updates-item').removeClass('is-shown')
+      @downloadingUpdate.addClass('is-shown')
+
+    @atomUpdate.onDidCompleteDownload =>
+      @find('.about-updates-item').removeClass('is-shown')
+      @updateDownloaded.addClass('is-shown')
+
+    @atomUpdate.onUpdateAvailable =>
+      @find('.about-updates-item').removeClass('is-shown')
+      @updateAvailable.addClass('is-shown')
+
+    @atomUpdate.onUpdateNotAvailable =>
+      @find('.about-updates-item').removeClass('is-shown')
+      @updateAvailable.addClass('is-shown')
+
 
   serialize: ->
     deserializer: 'AboutView'
