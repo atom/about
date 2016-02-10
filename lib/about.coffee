@@ -1,28 +1,34 @@
 {CompositeDisposable} = require 'atom'
 
+AboutView = null
 StatusBarView = null
 
 # The local storage key for the available update version.
 AvailableUpdateVersion = 'about:version-available'
 
-AboutURI = 'atom://about'
+aboutURI = 'atom://about'
 
-module.exports =
+createAboutView = (state) ->
+  AboutView ?= require './about-view'
+  new AboutView(state)
+
+atom.deserializers.add
+  name: 'AboutView'
+  deserialize: (state) -> createAboutView(state)
+
+module.exports = About =
   activate: ->
     @subscriptions = new CompositeDisposable
     @updateAvailable = false
 
     @subscriptions.add atom.workspace.addOpener (uriToOpen) ->
-      if uriToOpen is AboutURI
-        createAboutView = require './about-view'
-        createAboutView(uri: uriToOpen)
+      createAboutView(uri: uriToOpen) if uriToOpen is aboutURI
 
     @subscriptions.add atom.commands.add 'atom-workspace', 'about:view-release-notes', ->
       require('shell').openExternal('https://atom.io/releases')
 
     availableVersion = localStorage.getItem(AvailableUpdateVersion)
     localStorage.removeItem(AvailableUpdateVersion) if availableVersion is atom.getVersion()
-
 
     if atom.isReleasedVersion()
       @subscriptions.add atom.onUpdateAvailable ({releaseVersion}) =>
