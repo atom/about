@@ -25,6 +25,9 @@
       }
     }
   },
+  "deserializers": {
+    "AboutView": "deserializeAboutView"
+  },
   "standard": {
     "ignore": [],
     "parser": "babel-eslint",
