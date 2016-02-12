@@ -78,7 +78,7 @@ class AboutView extends ScrollView
       atom.workspace.open('atom://config/packages/metrics')
 
   serialize: ->
-    deserializer: @constructor.name
+    deserializer: 'AboutView'
     uri: @getURI()
 
   getURI: -> @uri

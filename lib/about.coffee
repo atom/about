@@ -5,24 +5,18 @@ StatusBarView = null
 
 # The local storage key for the available update version.
 AvailableUpdateVersion = 'about:version-available'
+AboutURI = 'atom://about'
 
-aboutURI = 'atom://about'
-
-createAboutView = (state) ->
-  AboutView ?= require './about-view'
-  new AboutView(state)
-
-atom.deserializers.add
-  name: 'AboutView'
-  deserialize: (state) -> createAboutView(state)
-
-module.exports = About =
+module.exports =
   activate: ->
     @subscriptions = new CompositeDisposable
     @updateAvailable = false
+    @aboutView = null
+    @statusBarTile = null
 
-    @subscriptions.add atom.workspace.addOpener (uriToOpen) ->
-      createAboutView(uri: uriToOpen) if uriToOpen is aboutURI
+    @subscriptions.add atom.workspace.addOpener (uriToOpen) =>
+      if uriToOpen is AboutURI
+        @deserializeAboutView(uri: AboutURI)
 
     @subscriptions.add atom.commands.add 'atom-workspace', 'about:view-release-notes', ->
       require('shell').openExternal('https://atom.io/releases')
@@ -36,12 +30,21 @@ module.exports = About =
         @showStatusBarIfNeeded()
 
   deactivate: ->
+    @aboutView?.remove()
+    @aboutView = null
+
     @subscriptions.dispose()
     @statusBarTile?.destroy()
 
   consumeStatusBar: (statusBar) ->
     @statusBar = statusBar
     @showStatusBarIfNeeded()
+
+  deserializeAboutView: (state) ->
+    unless @aboutView?
+      AboutView ?= require './about-view'
+      @aboutView = new AboutView(uri: AboutURI)
+    @aboutView
 
   isUpdateAvailable: ->
     availableVersion = localStorage.getItem(AvailableUpdateVersion)
@@ -54,3 +57,8 @@ module.exports = About =
 
     @statusBarTile?.destroy()
     @statusBarTile = @statusBar.addRightTile(item: new StatusBarView(), priority: -100)
+
+unless parseFloat(atom.getVersion()) >= 1.7
+  atom.deserializers.add
+    name: 'AboutView'
+    deserialize: module.exports.deserializeAboutView.bind(module.exports)
