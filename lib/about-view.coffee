@@ -58,12 +58,6 @@ class AboutView extends ScrollView
                 @span class: 'about-updates-label', 'downloaded'
                 @a class: 'about-updates-release-notes', 'Release Notes'
 
-              @div class: 'about-updates-item', outlet: 'updateAvailable', =>
-                @span class: 'about-updates-label icon icon-squirrel', 'New update'
-                @span class: 'about-updates-version', '1.5.0'
-                @span class: 'about-updates-label', 'available'
-                @a class: 'about-updates-release-notes', 'Release Notes'
-
             @button class: 'btn', 'Check for updates'
             # @button class: 'btn disabled', 'Check for updates'
             # @button class: 'btn', 'Cancel'
