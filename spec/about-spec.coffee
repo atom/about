@@ -42,8 +42,43 @@ describe "About", ->
         $(versionContainer).click()
         expect(atom.clipboard.read()).toBe atom.getVersion()
 
-triggerUpdate = (version) ->
-  atom.updateAvailable({releaseVersion: version})
+  describe "updates", ->
+    [aboutElement] = []
+
+    beforeEach ->
+      jasmine.attachToDOM(workspaceElement)
+      atom.workspace.open('atom://about')
+      waitsFor ->
+        atom.workspace.getActivePaneItem()
+      runs ->
+        aboutElement = workspaceElement.querySelector('.about')
+
+    it "shows the correct panels when the app checks for updates and there is no update available", ->
+      expect(aboutElement.querySelector('.app-up-to-date')).toBeVisible()
+
+      MockUpdater.checkForUpdate()
+      expect(aboutElement.querySelector('.app-up-to-date')).not.toBeVisible()
+      expect(aboutElement.querySelector('.app-checking-for-updates')).toBeVisible()
+
+      MockUpdater.updateNotAvailable()
+      expect(aboutElement.querySelector('.app-up-to-date')).toBeVisible()
+      expect(aboutElement.querySelector('.app-checking-for-updates')).not.toBeVisible()
+
+    it "shows the correct panels when the app checks for updates and an update is downloaded", ->
+      expect(aboutElement.querySelector('.app-up-to-date')).toBeVisible()
+
+      MockUpdater.checkForUpdate()
+      expect(aboutElement.querySelector('.app-up-to-date')).not.toBeVisible()
+      expect(aboutElement.querySelector('.app-checking-for-updates')).toBeVisible()
+
+      MockUpdater.downloadUpdate()
+      expect(aboutElement.querySelector('.app-checking-for-updates')).not.toBeVisible()
+      expect(aboutElement.querySelector('.app-downloading-update')).toBeVisible()
+
+      MockUpdater.finishDownloadingUpdate(42)
+      expect(aboutElement.querySelector('.app-downloading-update')).not.toBeVisible()
+      expect(aboutElement.querySelector('.app-update-available-to-install')).toBeVisible()
+      expect(aboutElement.querySelector('.app-update-available-to-install .about-updates-version').textContent).toBe('42')
 
 describe "the status bar", ->
   workspaceElement = null
@@ -110,3 +145,21 @@ describe "the status bar", ->
       waitsForPromise -> atom.packages.activatePackage('about')
       waits(1) # Service consumption hooks are deferred until the next tick
       runs -> expect(workspaceElement).not.toContain('.about-release-notes')
+
+triggerUpdate = (version) ->
+  atom.updateAvailable({releaseVersion: version})
+
+MockUpdater =
+  checkForUpdate: ->
+    atom.autoUpdater.emitter.emit('did-begin-checking-for-update')
+
+  updateNotAvailable: ->
+    atom.autoUpdater.emitter.emit('update-not-available')
+
+  downloadUpdate: ->
+    atom.autoUpdater.emitter.emit('did-begin-downloading-update')
+
+  finishDownloadingUpdate: (releaseVersion) ->
+    version = {releaseVersion}
+    atom.autoUpdater.emitter.emit('did-complete-downloading-update', version)
+    atom.updateAvailable(version)
