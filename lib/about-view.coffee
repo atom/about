@@ -39,22 +39,22 @@ class AboutView extends ScrollView
           @div class: 'about-updates-box', =>
             @div class: 'about-updates-status', =>
 
-              @div class: 'about-updates-item is-shown', =>
+              @div class: 'about-updates-item is-shown app-up-to-date', outlet: 'upToDate', =>
                 @span class: 'icon icon-check'
                 @span class: 'about-updates-label is-strong', 'Atom is up to date!'
 
-              @div class: 'about-updates-item', outlet: 'checkingForUpdates', =>
+              @div class: 'about-updates-item app-checking-for-updates', outlet: 'checkingForUpdates', =>
                 @span class: 'about-updates-label icon icon-search', 'Checking for updates...'
 
-              @div class: 'about-updates-item', outlet: 'downloadingUpdate', =>
+              @div class: 'about-updates-item app-downloading-update', outlet: 'downloadingUpdate', =>
                 @span class: 'loading loading-spinner-tiny inline-block'
                 @span class: 'about-updates-label', 'Downloading'
                 @span class: 'about-updates-version', '1.5.0'
                 @a class: 'about-updates-release-notes', 'Release Notes'
 
-              @div class: 'about-updates-item', outlet: 'updateDownloaded', =>
+              @div class: 'about-updates-item app-update-available-to-install', outlet: 'updateAvailableToInstall', =>
                 @span class: 'about-updates-label icon icon-squirrel', 'New update'
-                @span class: 'about-updates-version', '1.5.0'
+                @span class: 'about-updates-version', outlet: 'updateAvailableVersion', '1.5.0'
                 @span class: 'about-updates-label', 'downloaded'
                 @a class: 'about-updates-release-notes', 'Release Notes'
 
@@ -97,13 +97,12 @@ class AboutView extends ScrollView
   onDidChangeTitle: -> new Disposable ->
   onDidChangeModified: -> new Disposable ->
 
-  initialize: ({@uri, @update}) ->
-    @atomVersion.text(atom.getVersion())
-    @atomUpdate ?= atom.update
+  initialize: ({@uri}) ->
     @handleUIEvents()
     @handleUpdateEvents()
 
   handleUIEvents: () ->
+    @atomVersion.text(atom.getVersion())
     @copyAtomVersion.on 'click', =>
       atom.clipboard.write(@atomVersion.text())
 
@@ -121,26 +120,21 @@ class AboutView extends ScrollView
       atom.workspace.open('atom://config/packages/metrics')
 
   handleUpdateEvents: ->
-    @atomUpdate.onDidBeginCheckingForUpdate =>
+    @update = new Update
+    @update.onDidChange =>
       @find('.about-updates-item').removeClass('is-shown')
-      @checkingForUpdates.addClass('is-shown')
 
-    @atomUpdate.onDidBeginDownload =>
-      @find('.about-updates-item').removeClass('is-shown')
-      @downloadingUpdate.addClass('is-shown')
-
-    @atomUpdate.onDidCompleteDownload =>
-      @find('.about-updates-item').removeClass('is-shown')
-      @updateDownloaded.addClass('is-shown')
-
-    @atomUpdate.onUpdateAvailable =>
-      @find('.about-updates-item').removeClass('is-shown')
-      @updateAvailable.addClass('is-shown')
-
-    @atomUpdate.onUpdateNotAvailable =>
-      @find('.about-updates-item').removeClass('is-shown')
-      @updateAvailable.addClass('is-shown')
-
+      state = @update.getState()
+      switch state
+        when Update.State.CheckingForUpdate
+          @checkingForUpdates.addClass('is-shown')
+        when Update.State.DownloadingUpdate
+          @downloadingUpdate.addClass('is-shown')
+        when Update.State.UpdateAvailableToInstall
+          @updateAvailableVersion.text(@update.getAvailableVersion())
+          @updateAvailableToInstall.addClass('is-shown')
+        when Update.State.UpToDate
+          @upToDate.addClass('is-shown')
 
   serialize: ->
     deserializer: 'AboutView'
