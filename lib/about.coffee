@@ -2,10 +2,18 @@
 
 AboutView = null
 StatusBarView = null
+UpdateManager = null
+updateManager = null
 
 # The local storage key for the available update version.
 AvailableUpdateVersion = 'about:version-available'
 AboutURI = 'atom://about'
+
+getUpdateManager = ->
+  unless updateManager?
+    UpdateManager ?= require './update'
+    updateManager = new UpdateManager
+  updateManager
 
 module.exports =
   activate: ->
@@ -33,6 +41,9 @@ module.exports =
     @aboutView?.remove()
     @aboutView = null
 
+    updateManager?.dispose()
+    updateManager = null
+
     @subscriptions.dispose()
     @statusBarTile?.destroy()
 
@@ -43,7 +54,8 @@ module.exports =
   deserializeAboutView: (state) ->
     unless @aboutView?
       AboutView ?= require './about-view'
-      @aboutView = new AboutView(uri: AboutURI)
+      updateManager = getUpdateManager()
+      @aboutView = new AboutView({uri: AboutURI, updateManager})
     @aboutView
 
   isUpdateAvailable: ->

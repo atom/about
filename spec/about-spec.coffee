@@ -52,7 +52,7 @@ describe "About", ->
         atom.workspace.getActivePaneItem()
       runs ->
         aboutElement = workspaceElement.querySelector('.about')
-        updateModel = $(aboutElement).view().update
+        updateModel = $(aboutElement).view().updateManager
 
     describe "when the updates are not supported by the platform", ->
       it "hides the auto update UI", ->

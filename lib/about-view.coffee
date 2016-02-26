@@ -94,7 +94,7 @@ class AboutView extends ScrollView
   onDidChangeTitle: -> new Disposable ->
   onDidChangeModified: -> new Disposable ->
 
-  initialize: ({@uri}) ->
+  initialize: ({@uri, @updateManager}) ->
     @handleUIEvents()
     @handleUpdateEvents()
     @updateAutoUpdateElements()
@@ -116,25 +116,24 @@ class AboutView extends ScrollView
 
     @viewUpdateReleaseNotes.on 'click', =>
       # TODO: this could maybe be a command: 'about:view-avalable-version-release-notes'
-      shell.openExternal(@update.getReleaseNotesURLForAvailableVersion())
+      shell.openExternal(@updateManager.getReleaseNotesURLForAvailableVersion())
 
     @automaticallyUpdateCheckbox.on 'change', ->
       atom.config.set('core.automaticallyUpdate', this.checked)
 
     @updateActionButton.on 'click', =>
-      @executeUpateActionForState(@update.getState())
+      @executeUpateActionForState(@updateManager.getState())
 
     @on 'click', '.metrics-open', ->
       atom.workspace.open('atom://config/packages/metrics')
 
   handleUpdateEvents: ->
-    @update = new Update
-    @update.onDidChange => @updateAutoUpdateElements()
+    @updateManager.onDidChange => @updateAutoUpdateElements()
 
   updateAutoUpdateElements: ->
     @find('.about-updates-item').removeClass('is-shown')
 
-    state = @update.getState()
+    state = @updateManager.getState()
 
     if state is Update.State.Unsupported
       @updatesContainer.hide()
@@ -146,7 +145,7 @@ class AboutView extends ScrollView
 
     switch state
       when Update.State.Default
-        autoUpdatesEnabled = @update.getAutoUpdatesEnabled()
+        autoUpdatesEnabled = @updateManager.getAutoUpdatesEnabled()
         @automaticallyUpdateCheckbox[0].checked = autoUpdatesEnabled
         if autoUpdatesEnabled
           @defaultEnabledUpdateMessage.addClass('is-shown')
@@ -160,7 +159,7 @@ class AboutView extends ScrollView
       when Update.State.DownloadingUpdate
         @downloadingUpdate.addClass('is-shown')
       when Update.State.UpdateAvailableToInstall
-        @updateAvailableVersion.text(@update.getAvailableVersion())
+        @updateAvailableVersion.text(@updateManager.getAvailableVersion())
         @updateAvailableToInstall.addClass('is-shown')
       when Update.State.UpToDate
         @upToDate.addClass('is-shown')
@@ -168,9 +167,9 @@ class AboutView extends ScrollView
   executeUpateActionForState: (state) ->
     switch state
       when Update.State.UpdateAvailableToInstall
-        @update.restartAndInstallUpdate()
+        @updateManager.restartAndInstallUpdate()
       else
-        @update.checkForUpdate()
+        @updateManager.checkForUpdate()
 
   getUpdateActionButtonTextForState: (state) ->
     switch state
