@@ -35,11 +35,15 @@ class AboutView extends ScrollView
               @span class: 'icon icon-clippy about-copy-version'
             @a class: 'about-header-release-notes', outlet: 'viewReleaseNotes', 'Release Notes'
 
-        @div class: 'about-updates group-start', =>
+        @div class: 'about-updates group-start', outlet: 'updatesContainer', =>
           @div class: 'about-updates-box', =>
             @div class: 'about-updates-status', =>
 
-              @div class: 'about-updates-item is-shown app-up-to-date', outlet: 'upToDate', =>
+              @div class: 'about-updates-item is-shown about-default-update-message', outlet: 'defaultUpdateMessage', =>
+                @span class: 'about-updates-label', ''
+                @a class: 'about-updates-release-notes', 'Check Now'
+
+              @div class: 'about-updates-item app-up-to-date', outlet: 'upToDate', =>
                 @span class: 'icon icon-check'
                 @span class: 'about-updates-label is-strong', 'Atom is up to date!'
 
@@ -100,6 +104,7 @@ class AboutView extends ScrollView
   initialize: ({@uri}) ->
     @handleUIEvents()
     @handleUpdateEvents()
+    @updateAutoUpdateElements()
 
   handleUIEvents: () ->
     @atomVersion.text(atom.getVersion())
@@ -121,20 +126,30 @@ class AboutView extends ScrollView
 
   handleUpdateEvents: ->
     @update = new Update
-    @update.onDidChange =>
-      @find('.about-updates-item').removeClass('is-shown')
+    @update.onDidChange => @updateAutoUpdateElements()
 
-      state = @update.getState()
-      switch state
-        when Update.State.CheckingForUpdate
-          @checkingForUpdates.addClass('is-shown')
-        when Update.State.DownloadingUpdate
-          @downloadingUpdate.addClass('is-shown')
-        when Update.State.UpdateAvailableToInstall
-          @updateAvailableVersion.text(@update.getAvailableVersion())
-          @updateAvailableToInstall.addClass('is-shown')
-        when Update.State.UpToDate
-          @upToDate.addClass('is-shown')
+  updateAutoUpdateElements: ->
+    @find('.about-updates-item').removeClass('is-shown')
+
+    state = @update.getState()
+
+    if state is Update.State.Unsupported
+      @updatesContainer.hide()
+    else
+      @updatesContainer.show()
+
+    switch state
+      when Update.State.Default
+        @defaultUpdateMessage.addClass('is-shown')
+      when Update.State.CheckingForUpdate
+        @checkingForUpdates.addClass('is-shown')
+      when Update.State.DownloadingUpdate
+        @downloadingUpdate.addClass('is-shown')
+      when Update.State.UpdateAvailableToInstall
+        @updateAvailableVersion.text(@update.getAvailableVersion())
+        @updateAvailableToInstall.addClass('is-shown')
+      when Update.State.UpToDate
+        @upToDate.addClass('is-shown')
 
   serialize: ->
     deserializer: 'AboutView'
