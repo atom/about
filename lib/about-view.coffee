@@ -1,7 +1,7 @@
 {ScrollView} = require 'atom-space-pen-views'
 {Disposable} = require 'atom'
 shell = require 'shell'
-Update = require './update'
+UpdateManager = require './update-manager'
 
 module.exports =
 class AboutView extends ScrollView
@@ -135,7 +135,7 @@ class AboutView extends ScrollView
 
     state = @updateManager.getState()
 
-    if state is Update.State.Unsupported
+    if state is UpdateManager.State.Unsupported
       @updatesContainer.hide()
     else
       @updatesContainer.show()
@@ -144,7 +144,7 @@ class AboutView extends ScrollView
     @updateActionButton[0].disabled = not @getUpdateActionButtonEnablementForState(state)
 
     switch state
-      when Update.State.Default
+      when UpdateManager.State.Default
         autoUpdatesEnabled = @updateManager.getAutoUpdatesEnabled()
         @automaticallyUpdateCheckbox[0].checked = autoUpdatesEnabled
         if autoUpdatesEnabled
@@ -154,33 +154,33 @@ class AboutView extends ScrollView
           @defaultEnabledUpdateMessage.removeClass('is-shown')
           @defaultDisabledUpdateMessage.addClass('is-shown')
         @defaultUpdateMessage.addClass('is-shown')
-      when Update.State.CheckingForUpdate
+      when UpdateManager.State.CheckingForUpdate
         @checkingForUpdates.addClass('is-shown')
-      when Update.State.DownloadingUpdate
+      when UpdateManager.State.DownloadingUpdate
         @downloadingUpdate.addClass('is-shown')
-      when Update.State.UpdateAvailableToInstall
+      when UpdateManager.State.UpdateAvailableToInstall
         @updateAvailableVersion.text(@updateManager.getAvailableVersion())
         @updateAvailableToInstall.addClass('is-shown')
-      when Update.State.UpToDate
+      when UpdateManager.State.UpToDate
         @upToDate.addClass('is-shown')
 
   executeUpateActionForState: (state) ->
     switch state
-      when Update.State.UpdateAvailableToInstall
+      when UpdateManager.State.UpdateAvailableToInstall
         @updateManager.restartAndInstallUpdate()
       else
         @updateManager.checkForUpdate()
 
   getUpdateActionButtonTextForState: (state) ->
     switch state
-      when Update.State.UpdateAvailableToInstall
+      when UpdateManager.State.UpdateAvailableToInstall
         'Restart and install'
       else
         'Check for update'
 
   getUpdateActionButtonEnablementForState: (state) ->
     switch state
-      when Update.State.CheckingForUpdate, Update.State.DownloadingUpdate
+      when UpdateManager.State.CheckingForUpdate, UpdateManager.State.DownloadingUpdate
         false
       else
         true

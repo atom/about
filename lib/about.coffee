@@ -11,7 +11,7 @@ AboutURI = 'atom://about'
 
 getUpdateManager = ->
   unless updateManager?
-    UpdateManager ?= require './update'
+    UpdateManager ?= require './update-manager'
     updateManager = new UpdateManager
   updateManager
 
