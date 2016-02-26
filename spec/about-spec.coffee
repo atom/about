@@ -95,6 +95,17 @@ describe "About", ->
         expect(aboutElement.querySelector('.app-update-available-to-install')).toBeVisible()
         expect(aboutElement.querySelector('.app-update-available-to-install .about-updates-version').textContent).toBe('42')
 
+      describe "when core.automaticallyUpdate is toggled", ->
+        beforeEach ->
+          atom.config.set('core.automaticallyUpdate', true)
+
+        it "shows the auto update UI", ->
+          expect(aboutElement.querySelector('.about-default-update-message .about-default-enabled-update-message')).toBeVisible()
+          expect(aboutElement.querySelector('.about-default-update-message .about-default-disabled-update-message')).not.toBeVisible()
+
+          atom.config.set('core.automaticallyUpdate', false)
+          expect(aboutElement.querySelector('.about-default-update-message .about-default-enabled-update-message')).not.toBeVisible()
+          expect(aboutElement.querySelector('.about-default-update-message .about-default-disabled-update-message')).toBeVisible()
 
 describe "the status bar", ->
   workspaceElement = null
