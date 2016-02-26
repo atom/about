@@ -70,8 +70,8 @@ class AboutView extends ScrollView
             # @button class: 'btn', 'Download'
 
           @div class: 'about-auto-updates', =>
-            @label class: '', =>
-              @input type: 'checkbox', checked: true
+            @label =>
+              @input type: 'checkbox', checked: true, outlet: 'automaticallyUpdateCheckbox'
               @span 'Automatically download updates'
 
         @p class: 'about-metrics group-start', =>
@@ -122,6 +122,9 @@ class AboutView extends ScrollView
     @viewReleaseNotes.on 'click', ->
       atom.commands.dispatch(atom.views.getView(atom.workspace), 'about:view-release-notes')
 
+    @automaticallyUpdateCheckbox.on 'change', (e) ->
+      atom.config.set('core.automaticallyUpdate', this.checked)
+
     @on 'click', '.metrics-open', ->
       atom.workspace.open('atom://config/packages/metrics')
 
@@ -141,7 +144,9 @@ class AboutView extends ScrollView
 
     switch state
       when Update.State.Default
-        if @update.getAutoUpdatesEnabled()
+        autoUpdatesEnabled = @update.getAutoUpdatesEnabled()
+        @automaticallyUpdateCheckbox[0].checked = autoUpdatesEnabled
+        if autoUpdatesEnabled
           @defaultEnabledUpdateMessage.addClass('is-shown')
           @defaultDisabledUpdateMessage.removeClass('is-shown')
         else

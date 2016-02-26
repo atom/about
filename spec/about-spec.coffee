@@ -100,12 +100,29 @@ describe "About", ->
           atom.config.set('core.automaticallyUpdate', true)
 
         it "shows the auto update UI", ->
+          expect(aboutElement.querySelector('.about-auto-updates input').checked).toBe true
           expect(aboutElement.querySelector('.about-default-update-message .about-default-enabled-update-message')).toBeVisible()
           expect(aboutElement.querySelector('.about-default-update-message .about-default-disabled-update-message')).not.toBeVisible()
 
           atom.config.set('core.automaticallyUpdate', false)
+          expect(aboutElement.querySelector('.about-auto-updates input').checked).toBe false
           expect(aboutElement.querySelector('.about-default-update-message .about-default-enabled-update-message')).not.toBeVisible()
           expect(aboutElement.querySelector('.about-default-update-message .about-default-disabled-update-message')).toBeVisible()
+
+        it "updates config and the UI when the checkbox is used to toggle", ->
+          expect(aboutElement.querySelector('.about-auto-updates input').checked).toBe true
+
+          $(aboutElement.querySelector('.about-auto-updates input')).click()
+          expect(atom.config.get('core.automaticallyUpdate')).toBe false
+          expect(aboutElement.querySelector('.about-auto-updates input').checked).toBe false
+          expect(aboutElement.querySelector('.about-default-update-message .about-default-enabled-update-message')).not.toBeVisible()
+          expect(aboutElement.querySelector('.about-default-update-message .about-default-disabled-update-message')).toBeVisible()
+
+          $(aboutElement.querySelector('.about-auto-updates input')).click()
+          expect(atom.config.get('core.automaticallyUpdate')).toBe true
+          expect(aboutElement.querySelector('.about-auto-updates input').checked).toBe true
+          expect(aboutElement.querySelector('.about-default-update-message .about-default-enabled-update-message')).toBeVisible()
+          expect(aboutElement.querySelector('.about-default-update-message .about-default-disabled-update-message')).not.toBeVisible()
 
 describe "the status bar", ->
   workspaceElement = null
