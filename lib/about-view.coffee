@@ -42,7 +42,6 @@ class AboutView extends ScrollView
               @div class: 'about-updates-item is-shown about-default-update-message', outlet: 'defaultUpdateMessage', =>
                 @span class: 'about-updates-label about-default-enabled-update-message', outlet: 'defaultEnabledUpdateMessage', 'Atom will check for updates automatically'
                 @span class: 'about-updates-label about-default-disabled-update-message', outlet: 'defaultDisabledUpdateMessage', 'Automatic updates are disabled, please check manually'
-                @a class: 'about-updates-release-notes', 'Check Now'
 
               @div class: 'about-updates-item app-up-to-date', outlet: 'upToDate', =>
                 @span class: 'icon icon-check'
