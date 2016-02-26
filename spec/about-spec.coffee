@@ -43,7 +43,7 @@ describe "About", ->
         expect(atom.clipboard.read()).toBe atom.getVersion()
 
   describe "updates", ->
-    [aboutElement] = []
+    [aboutElement, updateModel] = []
 
     beforeEach ->
       jasmine.attachToDOM(workspaceElement)
@@ -52,33 +52,49 @@ describe "About", ->
         atom.workspace.getActivePaneItem()
       runs ->
         aboutElement = workspaceElement.querySelector('.about')
+        updateModel = $(aboutElement).view().update
 
-    it "shows the correct panels when the app checks for updates and there is no update available", ->
-      expect(aboutElement.querySelector('.app-up-to-date')).toBeVisible()
+    describe "when the updates are not supported by the platform", ->
+      it "hides the auto update UI", ->
+        spyOn(atom.autoUpdater, 'platformSupportsUpdates').andReturn(false)
+        updateModel.resetState()
+        expect(aboutElement.querySelector('.about-updates')).not.toBeVisible()
 
-      MockUpdater.checkForUpdate()
-      expect(aboutElement.querySelector('.app-up-to-date')).not.toBeVisible()
-      expect(aboutElement.querySelector('.app-checking-for-updates')).toBeVisible()
+    describe "when updates are supported by the platform", ->
+      beforeEach ->
+        spyOn(atom.autoUpdater, 'platformSupportsUpdates').andReturn(true)
+        updateModel.resetState()
 
-      MockUpdater.updateNotAvailable()
-      expect(aboutElement.querySelector('.app-up-to-date')).toBeVisible()
-      expect(aboutElement.querySelector('.app-checking-for-updates')).not.toBeVisible()
+      it "shows the auto update UI", ->
+        expect(aboutElement.querySelector('.about-updates')).toBeVisible()
 
-    it "shows the correct panels when the app checks for updates and an update is downloaded", ->
-      expect(aboutElement.querySelector('.app-up-to-date')).toBeVisible()
+      it "shows the correct panels when the app checks for updates and there is no update available", ->
+        expect(aboutElement.querySelector('.about-default-update-message')).toBeVisible()
 
-      MockUpdater.checkForUpdate()
-      expect(aboutElement.querySelector('.app-up-to-date')).not.toBeVisible()
-      expect(aboutElement.querySelector('.app-checking-for-updates')).toBeVisible()
+        MockUpdater.checkForUpdate()
+        expect(aboutElement.querySelector('.app-up-to-date')).not.toBeVisible()
+        expect(aboutElement.querySelector('.app-checking-for-updates')).toBeVisible()
 
-      MockUpdater.downloadUpdate()
-      expect(aboutElement.querySelector('.app-checking-for-updates')).not.toBeVisible()
-      expect(aboutElement.querySelector('.app-downloading-update')).toBeVisible()
+        MockUpdater.updateNotAvailable()
+        expect(aboutElement.querySelector('.app-up-to-date')).toBeVisible()
+        expect(aboutElement.querySelector('.app-checking-for-updates')).not.toBeVisible()
 
-      MockUpdater.finishDownloadingUpdate(42)
-      expect(aboutElement.querySelector('.app-downloading-update')).not.toBeVisible()
-      expect(aboutElement.querySelector('.app-update-available-to-install')).toBeVisible()
-      expect(aboutElement.querySelector('.app-update-available-to-install .about-updates-version').textContent).toBe('42')
+      it "shows the correct panels when the app checks for updates and an update is downloaded", ->
+        expect(aboutElement.querySelector('.about-default-update-message')).toBeVisible()
+
+        MockUpdater.checkForUpdate()
+        expect(aboutElement.querySelector('.app-up-to-date')).not.toBeVisible()
+        expect(aboutElement.querySelector('.app-checking-for-updates')).toBeVisible()
+
+        MockUpdater.downloadUpdate()
+        expect(aboutElement.querySelector('.app-checking-for-updates')).not.toBeVisible()
+        expect(aboutElement.querySelector('.app-downloading-update')).toBeVisible()
+
+        MockUpdater.finishDownloadingUpdate(42)
+        expect(aboutElement.querySelector('.app-downloading-update')).not.toBeVisible()
+        expect(aboutElement.querySelector('.app-update-available-to-install')).toBeVisible()
+        expect(aboutElement.querySelector('.app-update-available-to-install .about-updates-version').textContent).toBe('42')
+
 
 describe "the status bar", ->
   workspaceElement = null
