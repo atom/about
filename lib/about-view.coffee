@@ -52,14 +52,11 @@ class AboutView extends ScrollView
 
               @div class: 'about-updates-item app-downloading-update', outlet: 'downloadingUpdate', =>
                 @span class: 'loading loading-spinner-tiny inline-block'
-                @span class: 'about-updates-label', 'Downloading'
-                @span class: 'about-updates-version', '1.5.0'
-                @a class: 'about-updates-release-notes', 'Release Notes'
+                @span class: 'about-updates-label', 'Downloading update'
 
               @div class: 'about-updates-item app-update-available-to-install', outlet: 'updateAvailableToInstall', =>
                 @span class: 'about-updates-label icon icon-squirrel', 'New update'
                 @span class: 'about-updates-version', outlet: 'updateAvailableVersion', '1.5.0'
-                @span class: 'about-updates-label', 'downloaded'
                 @a class: 'about-updates-release-notes', 'Release Notes'
 
             @button class: 'btn about-update-action-button', outlet: 'updateActionButton', 'Check for update'
