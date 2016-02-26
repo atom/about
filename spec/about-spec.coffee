@@ -79,7 +79,7 @@ describe "About", ->
         expect(aboutElement.querySelector('.app-up-to-date')).toBeVisible()
         expect(aboutElement.querySelector('.app-checking-for-updates')).not.toBeVisible()
 
-      it "shows the correct panels when the app checks for updates and an update is downloaded", ->
+      it "shows the correct panels and button states when the app checks for updates and an update is downloaded", ->
         expect(aboutElement.querySelector('.about-default-update-message')).toBeVisible()
         expect(aboutElement.querySelector('.about-update-action-button').disabled).toBe false
         expect(aboutElement.querySelector('.about-update-action-button').textContent).toBe 'Check for update'
