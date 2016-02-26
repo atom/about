@@ -117,7 +117,7 @@ class AboutView extends ScrollView
     @viewReleaseNotes.on 'click', ->
       atom.commands.dispatch(atom.views.getView(atom.workspace), 'about:view-release-notes')
 
-    @automaticallyUpdateCheckbox.on 'change', (e) ->
+    @automaticallyUpdateCheckbox.on 'change', ->
       atom.config.set('core.automaticallyUpdate', this.checked)
 
     @on 'click', '.metrics-open', ->
