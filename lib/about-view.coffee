@@ -57,7 +57,7 @@ class AboutView extends ScrollView
               @div class: 'about-updates-item app-update-available-to-install', outlet: 'updateAvailableToInstall', =>
                 @span class: 'about-updates-label icon icon-squirrel', 'New update'
                 @span class: 'about-updates-version', outlet: 'updateAvailableVersion', '1.5.0'
-                @a class: 'about-updates-release-notes', 'Release Notes'
+                @a class: 'about-updates-release-notes', outlet: 'viewUpdateReleaseNotes', 'Release Notes'
 
             @button class: 'btn about-update-action-button', outlet: 'updateActionButton', 'Check for update'
 
@@ -113,6 +113,10 @@ class AboutView extends ScrollView
 
     @viewReleaseNotes.on 'click', ->
       atom.commands.dispatch(atom.views.getView(atom.workspace), 'about:view-release-notes')
+
+    @viewUpdateReleaseNotes.on 'click', =>
+      # TODO: this could maybe be a command: 'about:view-avalable-version-release-notes'
+      shell.openExternal(@update.getReleaseNotesURLForAvailableVersion())
 
     @automaticallyUpdateCheckbox.on 'change', ->
       atom.config.set('core.automaticallyUpdate', this.checked)

@@ -104,6 +104,18 @@ describe "About", ->
         expect(aboutElement.querySelector('.about-update-action-button').disabled).toBe false
         expect(aboutElement.querySelector('.about-update-action-button').textContent).toBe 'Restart and install'
 
+      it "opens the release notes for the downloaded release when the release notes link are clicked", ->
+        shell = require('shell')
+        MockUpdater.finishDownloadingUpdate('1.2.3')
+
+        spyOn(shell, 'openExternal')
+        link = aboutElement.querySelector('.app-update-available-to-install .about-updates-release-notes')
+        link.click()
+
+        args = shell.openExternal.mostRecentCall.args
+        expect(shell.openExternal).toHaveBeenCalled()
+        expect(args[0]).toContain '/v1.2.3'
+
       it "executes checkForUpdate() when the check for update button is clicked", ->
         spyOn(atom.autoUpdater, 'checkForUpdate')
         button = aboutElement.querySelector('.about-update-action-button')
