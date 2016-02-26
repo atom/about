@@ -27,7 +27,8 @@ module.exports =
         @deserializeAboutView(uri: AboutURI)
 
     @subscriptions.add atom.commands.add 'atom-workspace', 'about:view-release-notes', ->
-      require('shell').openExternal('https://atom.io/releases')
+      updateManager = getUpdateManager()
+      require('shell').openExternal(updateManager.getReleaseNotesURLForCurrentVersion())
 
     availableVersion = localStorage.getItem(AvailableUpdateVersion)
     localStorage.removeItem(AvailableUpdateVersion) if availableVersion is atom.getVersion()
