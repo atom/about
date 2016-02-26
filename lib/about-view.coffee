@@ -120,6 +120,9 @@ class AboutView extends ScrollView
     @automaticallyUpdateCheckbox.on 'change', ->
       atom.config.set('core.automaticallyUpdate', this.checked)
 
+    @updateActionButton.on 'click', =>
+      @executeUpateActionForState(@update.getState())
+
     @on 'click', '.metrics-open', ->
       atom.workspace.open('atom://config/packages/metrics')
 
@@ -161,6 +164,13 @@ class AboutView extends ScrollView
       when Update.State.UpToDate
         @upToDate.addClass('is-shown')
 
+  executeUpateActionForState: (state) ->
+    switch state
+      when Update.State.UpdateAvailableToInstall
+        @update.restartAndInstallUpdate()
+      else
+        @update.checkForUpdate()
+
   getUpdateActionButtonTextForState: (state) ->
     switch state
       when Update.State.UpdateAvailableToInstall
@@ -169,13 +179,6 @@ class AboutView extends ScrollView
         'Check for update'
 
   getUpdateActionButtonEnablementForState: (state) ->
-    switch state
-      when Update.State.CheckingForUpdate, Update.State.DownloadingUpdate
-        false
-      else
-        true
-
-  executeUpateActionForState: (state) ->
     switch state
       when Update.State.CheckingForUpdate, Update.State.DownloadingUpdate
         false

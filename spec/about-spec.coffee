@@ -104,6 +104,19 @@ describe "About", ->
         expect(aboutElement.querySelector('.about-update-action-button').disabled).toBe false
         expect(aboutElement.querySelector('.about-update-action-button').textContent).toBe 'Restart and install'
 
+      it "executes checkForUpdate() when the check for update button is clicked", ->
+        spyOn(atom.autoUpdater, 'checkForUpdate')
+        button = aboutElement.querySelector('.about-update-action-button')
+        button.click()
+        expect(atom.autoUpdater.checkForUpdate).toHaveBeenCalled()
+
+      it "executes restartAndInstallUpdate() when the restart and install button is clicked", ->
+        spyOn(atom.autoUpdater, 'restartAndInstallUpdate')
+        MockUpdater.finishDownloadingUpdate(42)
+        button = aboutElement.querySelector('.about-update-action-button')
+        button.click()
+        expect(atom.autoUpdater.restartAndInstallUpdate).toHaveBeenCalled()
+
       describe "when core.automaticallyUpdate is toggled", ->
         beforeEach ->
           atom.config.set('core.automaticallyUpdate', true)
