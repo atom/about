@@ -62,11 +62,7 @@ class AboutView extends ScrollView
                 @span class: 'about-updates-label', 'downloaded'
                 @a class: 'about-updates-release-notes', 'Release Notes'
 
-            @button class: 'btn', 'Check for updates'
-            # @button class: 'btn disabled', 'Check for updates'
-            # @button class: 'btn', 'Cancel'
-            # @button class: 'btn', 'Restart'
-            # @button class: 'btn', 'Download'
+            @button class: 'btn about-update-action-button', outlet: 'updateActionButton', 'Check for update'
 
           @div class: 'about-auto-updates', =>
             @label =>
@@ -141,6 +137,9 @@ class AboutView extends ScrollView
     else
       @updatesContainer.show()
 
+    @updateActionButton.text(@getUpdateActionButtonTextForState(state))
+    @updateActionButton[0].disabled = not @getUpdateActionButtonEnablementForState(state)
+
     switch state
       when Update.State.Default
         autoUpdatesEnabled = @update.getAutoUpdatesEnabled()
@@ -161,6 +160,27 @@ class AboutView extends ScrollView
         @updateAvailableToInstall.addClass('is-shown')
       when Update.State.UpToDate
         @upToDate.addClass('is-shown')
+
+  getUpdateActionButtonTextForState: (state) ->
+    switch state
+      when Update.State.UpdateAvailableToInstall
+        'Restart and install'
+      else
+        'Check for update'
+
+  getUpdateActionButtonEnablementForState: (state) ->
+    switch state
+      when Update.State.CheckingForUpdate, Update.State.DownloadingUpdate
+        false
+      else
+        true
+
+  executeUpateActionForState: (state) ->
+    switch state
+      when Update.State.CheckingForUpdate, Update.State.DownloadingUpdate
+        false
+      else
+        true
 
   serialize: ->
     deserializer: 'AboutView'
