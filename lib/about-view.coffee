@@ -99,7 +99,7 @@ class AboutView extends ScrollView
     @handleUpdateEvents()
     @updateAutoUpdateElements()
 
-  handleUIEvents: () ->
+  handleUIEvents: ->
     @atomVersion.text(atom.getVersion())
     @copyAtomVersion.on 'click', =>
       atom.clipboard.write(@atomVersion.text())
