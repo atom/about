@@ -43,27 +43,28 @@ describe "About", ->
         expect(atom.clipboard.read()).toBe atom.getVersion()
 
   describe "updates", ->
-    [aboutElement, updateModel] = []
+    [aboutElement, updateManager] = []
 
     beforeEach ->
       jasmine.attachToDOM(workspaceElement)
+      spyOn(atom.autoUpdater, 'getState').andReturn('idle')
       atom.workspace.open('atom://about')
       waitsFor ->
         atom.workspace.getActivePaneItem()
       runs ->
         aboutElement = workspaceElement.querySelector('.about')
-        updateModel = $(aboutElement).view().updateManager
+        updateManager = $(aboutElement).view().updateManager
 
     describe "when the updates are not supported by the platform", ->
       it "hides the auto update UI", ->
         spyOn(atom.autoUpdater, 'platformSupportsUpdates').andReturn(false)
-        updateModel.resetState()
+        updateManager.resetState()
         expect(aboutElement.querySelector('.about-updates')).not.toBeVisible()
 
     describe "when updates are supported by the platform", ->
       beforeEach ->
         spyOn(atom.autoUpdater, 'platformSupportsUpdates').andReturn(true)
-        updateModel.resetState()
+        updateManager.resetState()
 
       it "shows the auto update UI", ->
         expect(aboutElement.querySelector('.about-updates')).toBeVisible()
@@ -128,6 +129,15 @@ describe "About", ->
         button = aboutElement.querySelector('.about-update-action-button')
         button.click()
         expect(atom.autoUpdater.restartAndInstallUpdate).toHaveBeenCalled()
+
+      it "starts in the same state as atom's AutoUpdateManager", ->
+        atom.autoUpdater.getState.andReturn('downloading')
+        updateManager.resetState()
+
+        expect(aboutElement.querySelector('.app-checking-for-updates')).not.toBeVisible()
+        expect(aboutElement.querySelector('.app-downloading-update')).toBeVisible()
+        expect(aboutElement.querySelector('.about-update-action-button').disabled).toBe true
+        expect(aboutElement.querySelector('.about-update-action-button').textContent).toBe 'Check for update'
 
       describe "when core.automaticallyUpdate is toggled", ->
         beforeEach ->
