@@ -144,7 +144,7 @@ class AboutView extends ScrollView
     @updateActionButton[0].disabled = not @getUpdateActionButtonEnablementForState(state)
 
     switch state
-      when UpdateManager.State.Default
+      when UpdateManager.State.Idle
         autoUpdatesEnabled = @updateManager.getAutoUpdatesEnabled()
         @automaticallyUpdateCheckbox[0].checked = autoUpdatesEnabled
         if autoUpdatesEnabled
