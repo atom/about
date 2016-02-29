@@ -1,4 +1,4 @@
-'use babel'
+/** @babel */
 
 import UpdateManager from '../lib/update-manager'
 
