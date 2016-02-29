@@ -32,7 +32,21 @@
     "ignore": [],
     "parser": "babel-eslint",
     "globals": [
-      "atom"
+      "atom",
+      "afterEach",
+      "beforeEach",
+      "describe",
+      "fdescribe",
+      "xdescribe",
+      "expect",
+      "it",
+      "fit",
+      "xit",
+      "jasmine",
+      "runs",
+      "spyOn",
+      "waitsFor",
+      "waitsForPromise"
     ]
   }
 }

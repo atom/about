@@ -12,7 +12,7 @@ AboutURI = 'atom://about'
 getUpdateManager = ->
   unless updateManager?
     UpdateManager ?= require './update-manager'
-    updateManager = new UpdateManager
+    updateManager = global.UPDATE = new UpdateManager
   updateManager
 
 module.exports =
