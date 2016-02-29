@@ -176,7 +176,7 @@ class AboutView extends ScrollView
       when UpdateManager.State.UpdateAvailableToInstall
         'Restart and install'
       else
-        'Check for update'
+        'Check now'
 
   getUpdateActionButtonEnablementForState: (state) ->
     switch state

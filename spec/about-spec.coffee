@@ -86,20 +86,20 @@ describe "About", ->
       it "shows the correct panels and button states when the app checks for updates and an update is downloaded", ->
         expect(aboutElement.querySelector('.about-default-update-message')).toBeVisible()
         expect(aboutElement.querySelector('.about-update-action-button').disabled).toBe false
-        expect(aboutElement.querySelector('.about-update-action-button').textContent).toBe 'Check for update'
+        expect(aboutElement.querySelector('.about-update-action-button').textContent).toBe 'Check now'
 
         MockUpdater.checkForUpdate()
         expect(aboutElement.querySelector('.app-up-to-date')).not.toBeVisible()
         expect(aboutElement.querySelector('.app-checking-for-updates')).toBeVisible()
         expect(aboutElement.querySelector('.about-update-action-button').disabled).toBe true
-        expect(aboutElement.querySelector('.about-update-action-button').textContent).toBe 'Check for update'
+        expect(aboutElement.querySelector('.about-update-action-button').textContent).toBe 'Check now'
 
         MockUpdater.downloadUpdate()
         expect(aboutElement.querySelector('.app-checking-for-updates')).not.toBeVisible()
         expect(aboutElement.querySelector('.app-downloading-update')).toBeVisible()
         # TODO: at some point it would be nice to be able to cancel an update download, and then this would be a cancel button
         expect(aboutElement.querySelector('.about-update-action-button').disabled).toBe true
-        expect(aboutElement.querySelector('.about-update-action-button').textContent).toBe 'Check for update'
+        expect(aboutElement.querySelector('.about-update-action-button').textContent).toBe 'Check now'
 
         MockUpdater.finishDownloadingUpdate(42)
         expect(aboutElement.querySelector('.app-downloading-update')).not.toBeVisible()
@@ -140,7 +140,7 @@ describe "About", ->
         expect(aboutElement.querySelector('.app-checking-for-updates')).not.toBeVisible()
         expect(aboutElement.querySelector('.app-downloading-update')).toBeVisible()
         expect(aboutElement.querySelector('.about-update-action-button').disabled).toBe true
-        expect(aboutElement.querySelector('.about-update-action-button').textContent).toBe 'Check for update'
+        expect(aboutElement.querySelector('.about-update-action-button').textContent).toBe 'Check now'
 
       describe "when core.automaticallyUpdate is toggled", ->
         beforeEach ->
