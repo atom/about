@@ -122,7 +122,6 @@ describe "About", ->
         expect(args[0]).toContain '/v1.2.3'
 
       it "executes checkForUpdate() when the check for update button is clicked", ->
-        spyOn(atom.autoUpdater, 'checkForUpdate')
         button = aboutElement.querySelector('.about-update-action-button')
         button.click()
         expect(atom.autoUpdater.checkForUpdate).toHaveBeenCalled()
@@ -171,6 +170,33 @@ describe "About", ->
           expect(aboutElement.querySelector('.about-auto-updates input').checked).toBe true
           expect(aboutElement.querySelector('.about-default-update-message .about-default-enabled-update-message')).toBeVisible()
           expect(aboutElement.querySelector('.about-default-update-message .about-default-disabled-update-message')).not.toBeVisible()
+
+        it "checks for update when the about page is shown", ->
+          expect(atom.autoUpdater.checkForUpdate).not.toHaveBeenCalled()
+
+          atom.workspace.getActivePane().destroyActiveItem()
+          atom.workspace.open('atom://about')
+
+          waitsFor ->
+            atom.workspace.getActivePaneItem()
+
+          runs ->
+            expect(atom.autoUpdater.checkForUpdate).toHaveBeenCalled()
+
+        it "does not check for update when the about page is shown and auto updates are turned off", ->
+          atom.config.set('core.automaticallyUpdate', false)
+          expect(atom.autoUpdater.checkForUpdate).not.toHaveBeenCalled()
+
+          atom.workspace.getActivePane().destroyActiveItem()
+          atom.workspace.open('atom://about')
+
+          waitsFor ->
+            atom.workspace.getActivePaneItem()
+
+          runs ->
+            expect(atom.autoUpdater.checkForUpdate).not.toHaveBeenCalled()
+
+
 
 describe "the status bar", ->
   workspaceElement = null
