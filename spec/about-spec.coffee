@@ -49,8 +49,9 @@ describe "About", ->
     [aboutElement, updateManager] = []
 
     beforeEach ->
-      jasmine.attachToDOM(workspaceElement)
       spyOn(atom.autoUpdater, 'getState').andReturn('idle')
+      spyOn(atom.autoUpdater, 'checkForUpdate')
+      jasmine.attachToDOM(workspaceElement)
       atom.workspace.open('atom://about')
       waitsFor ->
         atom.workspace.getActivePaneItem()

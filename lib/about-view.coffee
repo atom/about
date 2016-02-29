@@ -127,6 +127,9 @@ class AboutView extends ScrollView
     @on 'click', '.metrics-open', ->
       atom.workspace.open('atom://config/packages/metrics')
 
+  attached: ->
+    @updateManager.checkForUpdate() if @updateManager.getAutoUpdatesEnabled()
+
   handleUpdateEvents: ->
     @updateManager.onDidChange => @updateAutoUpdateElements()
 
