@@ -233,13 +233,14 @@ describe "the status bar", ->
       expect(workspaceElement).toContain('.about-release-notes')
 
     describe "clicking on the status", ->
-      it "opens the release notes", ->
+      it "opens the about page", ->
         triggerUpdate('42')
-        expect(workspaceElement).toContain('.about-release-notes')
-
-        releaseNotesCall = spyOn(shell, 'openExternal')
         $(workspaceElement).find('.about-release-notes').trigger('click')
-        expect(releaseNotesCall.mostRecentCall.args[0]).toBe 'https://atom.io/releases'
+
+        waitsFor ->
+          workspaceElement.querySelector('.about')
+        runs ->
+          expect(workspaceElement.querySelector('.about')).toExist()
 
     it "continues to show the squirrel until Atom is updated to the new version", ->
       triggerUpdate('42')
