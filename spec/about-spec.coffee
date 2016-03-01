@@ -266,7 +266,7 @@ describe "the status bar", ->
       runs -> expect(workspaceElement).not.toContain('.about-release-notes')
 
 triggerUpdate = (version) ->
-  atom.updateAvailable({releaseVersion: version})
+  MockUpdater.finishDownloadingUpdate(version)
 
 MockUpdater =
   checkForUpdate: ->
