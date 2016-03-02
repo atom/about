@@ -277,8 +277,8 @@ describe "the status bar", ->
       waits(1) # Service consumption hooks are deferred until the next tick
       runs -> expect(workspaceElement).not.toContain('.about-release-notes')
 
-triggerUpdate = (version) ->
-  MockUpdater.finishDownloadingUpdate(version)
+triggerUpdate = (releaseVersion) ->
+  atom.updateAvailable({releaseVersion})
 
 MockUpdater =
   checkForUpdate: ->
