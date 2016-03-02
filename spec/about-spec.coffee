@@ -196,8 +196,6 @@ describe "About", ->
           runs ->
             expect(atom.autoUpdater.checkForUpdate).not.toHaveBeenCalled()
 
-
-
 describe "the status bar", ->
   workspaceElement = null
 
