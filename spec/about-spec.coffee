@@ -183,6 +183,20 @@ describe "About", ->
           runs ->
             expect(atom.autoUpdater.checkForUpdate).toHaveBeenCalled()
 
+        it "does not check for update when the about page is shown and the update manager is not in the idle state", ->
+          atom.autoUpdater.getState.andReturn('downloading')
+          updateManager.resetState()
+          expect(atom.autoUpdater.checkForUpdate).not.toHaveBeenCalled()
+
+          atom.workspace.getActivePane().destroyActiveItem()
+          atom.workspace.open('atom://about')
+
+          waitsFor ->
+            atom.workspace.getActivePaneItem()
+
+          runs ->
+            expect(atom.autoUpdater.checkForUpdate).not.toHaveBeenCalled()
+
         it "does not check for update when the about page is shown and auto updates are turned off", ->
           atom.config.set('core.automaticallyUpdate', false)
           expect(atom.autoUpdater.checkForUpdate).not.toHaveBeenCalled()
