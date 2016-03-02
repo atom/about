@@ -1,6 +1,7 @@
 {ScrollView} = require 'atom-space-pen-views'
 {Disposable} = require 'atom'
 shell = require 'shell'
+UpdateManager = require './update-manager'
 
 module.exports =
 class AboutView extends ScrollView
@@ -28,15 +29,44 @@ class AboutView extends ScrollView
                     </g>
                 </g>
             </svg>'
-          @div class: 'inline-block about-version-container', outlet: 'copyAtomVersion', =>
-            @span class: 'about-version', outlet: 'atomVersion'
-            @span class: 'icon icon-clippy about-copy-version'
-        @div class: 'about-actions', =>
-          @div class: 'btn-group', =>
-            @button class: 'btn view-release-notes', outlet: 'viewReleaseNotes', 'Release Notes'
-            @button class: 'btn view-license', outlet: 'viewLicense', 'License'
-            @button class: 'btn terms-of-use', outlet: 'viewTerms', 'Terms of Use'
-        @p class: 'about-note about-metrics', =>
+          @div class: 'about-header-info', =>
+            @span class: 'about-version-container inline-block', outlet: 'copyAtomVersion', =>
+              @span class: 'about-version', outlet: 'atomVersion'
+              @span class: 'icon icon-clippy about-copy-version'
+            @a class: 'about-header-release-notes', outlet: 'viewReleaseNotes', 'Release Notes'
+
+        @div class: 'about-updates group-start', outlet: 'updatesContainer', =>
+          @div class: 'about-updates-box', =>
+            @div class: 'about-updates-status', =>
+
+              @div class: 'about-updates-item is-shown about-default-update-message', outlet: 'defaultUpdateMessage', =>
+                @span class: 'about-updates-label about-default-enabled-update-message', outlet: 'defaultEnabledUpdateMessage', 'Atom will check for updates automatically'
+                @span class: 'about-updates-label about-default-disabled-update-message', outlet: 'defaultDisabledUpdateMessage', 'Automatic updates are disabled, please check manually'
+
+              @div class: 'about-updates-item app-up-to-date', outlet: 'upToDate', =>
+                @span class: 'icon icon-check'
+                @span class: 'about-updates-label is-strong', 'Atom is up to date!'
+
+              @div class: 'about-updates-item app-checking-for-updates', outlet: 'checkingForUpdates', =>
+                @span class: 'about-updates-label icon icon-search', 'Checking for updates...'
+
+              @div class: 'about-updates-item app-downloading-update', outlet: 'downloadingUpdate', =>
+                @span class: 'loading loading-spinner-tiny inline-block'
+                @span class: 'about-updates-label', 'Downloading update'
+
+              @div class: 'about-updates-item app-update-available-to-install', outlet: 'updateAvailableToInstall', =>
+                @span class: 'about-updates-label icon icon-squirrel', 'New update'
+                @span class: 'about-updates-version', outlet: 'updateAvailableVersion', '1.5.0'
+                @a class: 'about-updates-release-notes', outlet: 'viewUpdateReleaseNotes', 'Release Notes'
+
+            @button class: 'btn about-update-action-button', outlet: 'updateActionButton', 'Check for update'
+
+          @div class: 'about-auto-updates', =>
+            @label =>
+              @input type: 'checkbox', checked: true, outlet: 'automaticallyUpdateCheckbox'
+              @span 'Automatically download updates'
+
+        @p class: 'about-metrics group-start', =>
           @raw '''
               <strong>Note:</strong> To help us improve Atom, we anonymously
               track usage metrics, such as launch time, screen size, and current
@@ -44,23 +74,33 @@ class AboutView extends ScrollView
               <a class="metrics-open" data-event="atom-metrics">atom/metrics</a>
               package for details and instructions to disable it.
             '''
-        @div class: 'about-credits', outlet: 'credits', =>
-          @span class: 'inline', 'Thanks to the '
-          @a href: 'https://github.com/atom/atom/contributors', 'Atom Community'
 
-        @div class: 'about-love', outlet: 'love', =>
+        @div class: 'about-actions group-item', =>
+          @div class: 'btn-group', =>
+            @button class: 'btn view-license', outlet: 'viewLicense', 'License'
+            @button class: 'btn terms-of-use', outlet: 'viewTerms', 'Terms of Use'
+
+        @div class: 'about-love group-start', outlet: 'love', =>
           @span class: 'icon icon-code'
           @span class: 'inline', ' with '
           @span class: 'icon icon-heart'
           @span class: 'inline', ' by '
           @a class: 'icon icon-logo-github', href: 'https://github.com'
 
+        @div class: 'about-credits group-item', outlet: 'credits', =>
+          @span class: 'inline', 'And the awesome '
+          @a href: 'https://github.com/atom/atom/contributors', 'Atom Community'
+
   onDidChangeTitle: -> new Disposable ->
   onDidChangeModified: -> new Disposable ->
 
-  initialize: ({@uri}) ->
-    @atomVersion.text(atom.getVersion())
+  initialize: ({@uri, @updateManager}) ->
+    @handleUIEvents()
+    @handleUpdateEvents()
+    @updateAutoUpdateElements()
 
+  handleUIEvents: ->
+    @atomVersion.text(atom.getVersion())
     @copyAtomVersion.on 'click', =>
       atom.clipboard.write(@atomVersion.text())
 
@@ -74,8 +114,79 @@ class AboutView extends ScrollView
     @viewReleaseNotes.on 'click', ->
       atom.commands.dispatch(atom.views.getView(atom.workspace), 'about:view-release-notes')
 
+    @viewUpdateReleaseNotes.on 'click', =>
+      # TODO: this could maybe be a command: 'about:view-avalable-version-release-notes'
+      shell.openExternal(@updateManager.getReleaseNotesURLForAvailableVersion())
+
+    @automaticallyUpdateCheckbox.on 'change', ->
+      atom.config.set('core.automaticallyUpdate', this.checked)
+
+    @updateActionButton.on 'click', =>
+      @executeUpateActionForState(@updateManager.getState())
+
     @on 'click', '.metrics-open', ->
       atom.workspace.open('atom://config/packages/metrics')
+
+  attached: ->
+    @updateManager.checkForUpdate() if @updateManager.getAutoUpdatesEnabled() and @updateManager.getState() is UpdateManager.State.Idle
+
+  handleUpdateEvents: ->
+    @updateManager.onDidChange => @updateAutoUpdateElements()
+
+  updateAutoUpdateElements: ->
+    @find('.about-updates-item').removeClass('is-shown')
+
+    state = @updateManager.getState()
+
+    if state is UpdateManager.State.Unsupported
+      @updatesContainer.hide()
+    else
+      @updatesContainer.show()
+
+    @updateActionButton.text(@getUpdateActionButtonTextForState(state))
+    @updateActionButton[0].disabled = not @getUpdateActionButtonEnablementForState(state)
+
+    switch state
+      when UpdateManager.State.Idle
+        autoUpdatesEnabled = @updateManager.getAutoUpdatesEnabled()
+        @automaticallyUpdateCheckbox[0].checked = autoUpdatesEnabled
+        if autoUpdatesEnabled
+          @defaultEnabledUpdateMessage.addClass('is-shown')
+          @defaultDisabledUpdateMessage.removeClass('is-shown')
+        else
+          @defaultEnabledUpdateMessage.removeClass('is-shown')
+          @defaultDisabledUpdateMessage.addClass('is-shown')
+        @defaultUpdateMessage.addClass('is-shown')
+      when UpdateManager.State.CheckingForUpdate
+        @checkingForUpdates.addClass('is-shown')
+      when UpdateManager.State.DownloadingUpdate
+        @downloadingUpdate.addClass('is-shown')
+      when UpdateManager.State.UpdateAvailableToInstall
+        @updateAvailableVersion.text(@updateManager.getAvailableVersion())
+        @updateAvailableToInstall.addClass('is-shown')
+      when UpdateManager.State.UpToDate
+        @upToDate.addClass('is-shown')
+
+  executeUpateActionForState: (state) ->
+    switch state
+      when UpdateManager.State.UpdateAvailableToInstall
+        @updateManager.restartAndInstallUpdate()
+      else
+        @updateManager.checkForUpdate()
+
+  getUpdateActionButtonTextForState: (state) ->
+    switch state
+      when UpdateManager.State.UpdateAvailableToInstall
+        'Restart and install'
+      else
+        'Check now'
+
+  getUpdateActionButtonEnablementForState: (state) ->
+    switch state
+      when UpdateManager.State.CheckingForUpdate, UpdateManager.State.DownloadingUpdate
+        false
+      else
+        true
 
   serialize: ->
     deserializer: 'AboutView'
