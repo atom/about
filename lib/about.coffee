@@ -28,7 +28,9 @@ module.exports =
 
     @subscriptions.add atom.commands.add 'atom-workspace', 'about:view-release-notes', ->
       updateManager = getUpdateManager()
-      require('shell').openExternal(updateManager.getReleaseNotesURLForCurrentVersion())
+      # TODO: Remove the catch once Atom 1.7.0 is released
+      try {shell} = require 'electron' catch then shell = require 'shell'
+      shell.openExternal(updateManager.getReleaseNotesURLForCurrentVersion())
 
     availableVersion = localStorage.getItem(AvailableUpdateVersion)
     localStorage.removeItem(AvailableUpdateVersion) if availableVersion is atom.getVersion()
