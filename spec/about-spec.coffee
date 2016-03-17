@@ -147,6 +147,7 @@ describe "About", ->
       describe "when core.automaticallyUpdate is toggled", ->
         beforeEach ->
           atom.config.set('core.automaticallyUpdate', true)
+          atom.autoUpdater.checkForUpdate.reset()
 
         it "shows the auto update UI", ->
           expect(aboutElement.querySelector('.about-auto-updates input').checked).toBe true
