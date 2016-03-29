@@ -167,6 +167,10 @@ class AboutView extends ScrollView
         @updateAvailableToInstall.addClass('is-shown')
       when UpdateManager.State.UpToDate
         @upToDate.addClass('is-shown')
+      else
+        @updatesContainer.hide()
+        console.warn("Unknown UpdateManager.State", {state: state})
+        atom.assert(false, "Unknown UpdateManager.State", {state: state})
 
   executeUpateActionForState: (state) ->
     switch state
