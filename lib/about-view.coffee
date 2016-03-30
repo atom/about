@@ -60,6 +60,10 @@ class AboutView extends ScrollView
                 @span class: 'about-updates-version', outlet: 'updateAvailableVersion', '1.5.0'
                 @a class: 'about-updates-release-notes', outlet: 'viewUpdateReleaseNotes', 'Release Notes'
 
+              @div class: 'about-updates-item app-update-error', outlet: 'updateError', =>
+                @span class: 'icon icon-x'
+                @span class: 'about-updates-label is-strong', 'There was an error checking/downloading updates.'
+
             @button class: 'btn about-update-action-button', outlet: 'updateActionButton', 'Check for update'
 
           @div class: 'about-auto-updates', =>
@@ -167,10 +171,8 @@ class AboutView extends ScrollView
         @updateAvailableToInstall.addClass('is-shown')
       when UpdateManager.State.UpToDate
         @upToDate.addClass('is-shown')
-      else
-        @updatesContainer.hide()
-        console.warn("Unknown UpdateManager.State", {state: state})
-        atom.assert(false, "Unknown UpdateManager.State", {state: state})
+      when UpdateManager.State.Error
+        @updateError.addClass('is-shown')
 
   executeUpateActionForState: (state) ->
     switch state
