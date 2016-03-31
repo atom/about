@@ -62,7 +62,7 @@ class AboutView extends ScrollView
 
               @div class: 'about-updates-item app-update-error', outlet: 'updateError', =>
                 @span class: 'icon icon-x'
-                @span class: 'about-updates-label is-strong', 'There was an error checking/downloading updates.'
+                @span class: 'about-updates-label is-strong', outlet: 'updateErrorMessage'
 
             @button class: 'btn about-update-action-button', outlet: 'updateActionButton', 'Check for update'
 
@@ -172,6 +172,7 @@ class AboutView extends ScrollView
       when UpdateManager.State.UpToDate
         @upToDate.addClass('is-shown')
       when UpdateManager.State.Error
+        @updateErrorMessage.text(@updateManager.getErrorMessage())
         @updateError.addClass('is-shown')
 
   executeUpateActionForState: (state) ->
