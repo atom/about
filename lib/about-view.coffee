@@ -62,7 +62,7 @@ class AboutView extends ScrollView
 
               @div class: 'about-updates-item app-update-error', outlet: 'updateError', =>
                 @span class: 'icon icon-x'
-                @span class: 'about-updates-label is-strong', outlet: 'updateErrorMessage'
+                @span class: 'about-updates-label app-error-message is-strong', outlet: 'updateErrorMessage'
 
             @button class: 'btn about-update-action-button', outlet: 'updateActionButton', 'Check for update'
 

@@ -92,8 +92,10 @@ describe "About", ->
         expect(aboutElement.querySelector('.app-up-to-date')).not.toBeVisible()
         expect(aboutElement.querySelector('.app-checking-for-updates')).toBeVisible()
 
+        spyOn(atom.autoUpdater, 'getErrorMessage').andReturn('an error message')
         MockUpdater.updateError()
         expect(aboutElement.querySelector('.app-update-error')).toBeVisible()
+        expect(aboutElement.querySelector('.app-error-message').textContent).toBe 'an error message'
         expect(aboutElement.querySelector('.app-checking-for-updates')).not.toBeVisible()
         expect(aboutElement.querySelector('.about-update-action-button').disabled).toBe false
         expect(aboutElement.querySelector('.about-update-action-button').textContent).toBe 'Check now'
