@@ -60,6 +60,10 @@ class AboutView extends ScrollView
                 @span class: 'about-updates-version', outlet: 'updateAvailableVersion', '1.5.0'
                 @a class: 'about-updates-release-notes', outlet: 'viewUpdateReleaseNotes', 'Release Notes'
 
+              @div class: 'about-updates-item app-update-error', outlet: 'updateError', =>
+                @span class: 'icon icon-x'
+                @span class: 'about-updates-label app-error-message is-strong', outlet: 'updateErrorMessage'
+
             @button class: 'btn about-update-action-button', outlet: 'updateActionButton', 'Check for update'
 
           @div class: 'about-auto-updates', =>
@@ -167,6 +171,9 @@ class AboutView extends ScrollView
         @updateAvailableToInstall.addClass('is-shown')
       when UpdateManager.State.UpToDate
         @upToDate.addClass('is-shown')
+      when UpdateManager.State.Error
+        @updateErrorMessage.text(@updateManager.getErrorMessage())
+        @updateError.addClass('is-shown')
 
   executeUpateActionForState: (state) ->
     switch state

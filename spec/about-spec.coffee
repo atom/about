@@ -85,6 +85,21 @@ describe "About", ->
         expect(aboutElement.querySelector('.app-up-to-date')).toBeVisible()
         expect(aboutElement.querySelector('.app-checking-for-updates')).not.toBeVisible()
 
+      it "shows the correct panels when the app checks for updates and there is no update available", ->
+        expect(aboutElement.querySelector('.about-default-update-message')).toBeVisible()
+
+        MockUpdater.checkForUpdate()
+        expect(aboutElement.querySelector('.app-up-to-date')).not.toBeVisible()
+        expect(aboutElement.querySelector('.app-checking-for-updates')).toBeVisible()
+
+        spyOn(atom.autoUpdater, 'getErrorMessage').andReturn('an error message')
+        MockUpdater.updateError()
+        expect(aboutElement.querySelector('.app-update-error')).toBeVisible()
+        expect(aboutElement.querySelector('.app-error-message').textContent).toBe 'an error message'
+        expect(aboutElement.querySelector('.app-checking-for-updates')).not.toBeVisible()
+        expect(aboutElement.querySelector('.about-update-action-button').disabled).toBe false
+        expect(aboutElement.querySelector('.about-update-action-button').textContent).toBe 'Check now'
+
       it "shows the correct panels and button states when the app checks for updates and an update is downloaded", ->
         expect(aboutElement.querySelector('.about-default-update-message')).toBeVisible()
         expect(aboutElement.querySelector('.about-update-action-button').disabled).toBe false
@@ -284,6 +299,9 @@ triggerUpdate = (releaseVersion) ->
   atom.updateAvailable({releaseVersion})
 
 MockUpdater =
+  updateError: ->
+    atom.autoUpdater.emitter.emit('update-error')
+
   checkForUpdate: ->
     atom.autoUpdater.emitter.emit('did-begin-checking-for-update')
 
