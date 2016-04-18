@@ -42,6 +42,9 @@ describe "About", ->
         $(versionContainer).click()
         expect(atom.clipboard.read()).toBe atom.getVersion()
 
+  # TODO: remove when this function is in beta / stable
+  return unless atom.autoUpdater?.getState?
+
   describe "updates", ->
     [aboutElement, updateManager] = []
 
