@@ -44,7 +44,7 @@ describe "About", ->
         expect(atom.clipboard.read()).toBe atom.getVersion()
 
   # TODO: remove when this function is in beta / stable
-  return unless atom.autoUpdater?.getState?
+  return unless atom.autoUpdater?.onUpdateError?
 
   describe "updates", ->
     [aboutElement, updateManager] = []
