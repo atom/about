@@ -43,9 +43,6 @@ describe "About", ->
         $(versionContainer).click()
         expect(atom.clipboard.read()).toBe atom.getVersion()
 
-  # TODO: remove when this function is in beta / stable
-  return unless atom.autoUpdater?.getState?
-
   describe "updates", ->
     [aboutElement, updateManager] = []
 
@@ -86,6 +83,9 @@ describe "About", ->
         expect(aboutElement.querySelector('.app-checking-for-updates')).not.toBeVisible()
 
       it "shows the correct panels when the app checks for updates and there is no update available", ->
+        # TODO: remove when this function is in beta / stable
+        return unless atom.autoUpdater?.onUpdateError?
+
         expect(aboutElement.querySelector('.about-default-update-message')).toBeVisible()
 
         MockUpdater.checkForUpdate()
