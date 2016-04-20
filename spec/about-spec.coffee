@@ -1,5 +1,4 @@
-# TODO: Remove the catch once Atom 1.7.0 is released
-try {shell} = require 'electron' catch then shell = require 'shell'
+{shell} = require 'electron'
 About = require '../lib/about'
 {$} = require 'atom-space-pen-views'
 
@@ -126,8 +125,6 @@ describe "About", ->
         expect(aboutElement.querySelector('.about-update-action-button').textContent).toBe 'Restart and install'
 
       it "opens the release notes for the downloaded release when the release notes link are clicked", ->
-        # TODO: Remove the catch once Atom 1.7.0 is released
-        try {shell} = require 'electron' catch then shell = require 'shell'
         MockUpdater.finishDownloadingUpdate('1.2.3')
 
         spyOn(shell, 'openExternal')
