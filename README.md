@@ -1,5 +1,4 @@
-# About [![OS X Build Status](https://travis-ci.org/atom/about.svg?branch=master)](https://travis-ci.org/atom/about)
- [![Windows Build Status](https://ci.appveyor.com/api/projects/status/msprea3vq47l8oce/branch/master?svg=true)](https://ci.appveyor.com/project/atom/about/branch/master) [![Dependency Status](https://david-dm.org/atom/about.svg)](https://david-dm.org/atom/about) [![Slack](https://img.shields.io/badge/chat-atomio%2Eslack%2Ecom-blue.svg?style=flat-square)](http://atom-slack.herokuapp.com/)
+# About [![OS X Build Status](https://travis-ci.org/atom/about.svg?branch=master)](https://travis-ci.org/atom/about) [![Windows Build Status](https://ci.appveyor.com/api/projects/status/msprea3vq47l8oce/branch/master?svg=true)](https://ci.appveyor.com/project/atom/about/branch/master) [![Dependency Status](https://david-dm.org/atom/about.svg)](https://david-dm.org/atom/about) [![Slack](https://img.shields.io/badge/chat-atomio%2Eslack%2Ecom-blue.svg?style=flat-square)](http://atom-slack.herokuapp.com/)
 
 View useful information about your Atom installation.
 
