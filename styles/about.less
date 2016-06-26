@@ -168,6 +168,8 @@
 // the blue squirrel --------------------------------
 
 .about-release-notes {
-  cursor: pointer;
   color: @background-color-info;
+  &:hover {
+    color: lighten(@background-color-info, 15%);
+  }
 }
