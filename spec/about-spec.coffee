@@ -1,5 +1,5 @@
 {shell} = require 'electron'
-About = require '../lib/about'
+About = require '../lib/main'
 {$} = require 'atom-space-pen-views'
 
 describe "About", ->

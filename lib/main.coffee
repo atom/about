@@ -55,11 +55,12 @@ module.exports =
 
   deserializeAboutView: (state) ->
     unless @aboutView?
-      AboutView ?= require './about-view.coffee'
+      AboutView ?= require './about-view.js'
       updateManager = getUpdateManager()
+      debugger
       @aboutView = new AboutView({uri: AboutURI, updateManager})
-    @aboutView
     debugger
+    @aboutView
 
   isUpdateAvailable: ->
     availableVersion = localStorage.getItem(AvailableUpdateVersion)
@@ -68,10 +69,11 @@ module.exports =
   showStatusBarIfNeeded: ->
     return unless @isUpdateAvailable() and @statusBar?
 
-    StatusBarView ?= require './about-status-bar'
+    StatusBarView ?= require './about-status-bar-ng'
 
+    statusBarView = new StatusBarView()
     @statusBarTile?.destroy()
-    @statusBarTile = @statusBar.addRightTile(item: new StatusBarView(), priority: -100)
+    @statusBarTile = @statusBar.addRightTile(item: statusBarView, priority: -100)
 
 unless parseFloat(atom.getVersion()) >= 1.7
   atom.deserializers.add
