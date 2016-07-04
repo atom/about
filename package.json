@@ -7,6 +7,9 @@
   "keywords": [],
   "repository": "https://github.com/atom/about",
   "license": "MIT",
+  "scripts": {
+    "lint": "standard"
+  },
   "engines": {
     "atom": ">=1.7 <2.0.0"
   },
