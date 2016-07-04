@@ -74,8 +74,3 @@ module.exports =
     statusBarView = new StatusBarView()
     @statusBarTile?.destroy()
     @statusBarTile = @statusBar.addRightTile(item: statusBarView, priority: -100)
-
-unless parseFloat(atom.getVersion()) >= 1.7
-  atom.deserializers.add
-    name: 'AboutView'
-    deserialize: module.exports.deserializeAboutView.bind(module.exports)
