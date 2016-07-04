@@ -40,7 +40,7 @@ module.exports =
         @showStatusBarIfNeeded()
 
   deactivate: ->
-    @aboutView?.remove()
+    @aboutView?.destroy()
     @aboutView = null
 
     updateManager?.dispose()
