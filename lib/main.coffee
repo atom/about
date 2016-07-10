@@ -64,6 +64,8 @@ module.exports =
         updateManager,
         availableVersion: updateManager.getAvailableVersion()
       })
+
+      updateManager.onDidChange => @aboutView.update({updateManager})
     debugger
     @aboutView
 
@@ -74,7 +76,7 @@ module.exports =
   showStatusBarIfNeeded: ->
     return unless @isUpdateAvailable() and @statusBar?
 
-    StatusBarView ?= require './about-status-bar-ng'
+    StatusBarView ?= require './about-status-bar'
 
     statusBarView = new StatusBarView()
     @statusBarTile?.destroy()
