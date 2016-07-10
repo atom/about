@@ -58,15 +58,17 @@ module.exports =
     unless @aboutView?
       AboutView ?= require './about-view.js'
       updateManager = getUpdateManager()
-      debugger
       @aboutView = new AboutView({
         uri: AboutURI,
         updateManager,
         availableVersion: updateManager.getAvailableVersion()
       })
 
-      updateManager.onDidChange => @aboutView.update({updateManager})
-    debugger
+      updateManager.onDidChange => @aboutView.update({
+        uri: AboutURI,
+        updateManager,
+        availableVersion: updateManager.getAvailableVersion()
+      })
     @aboutView
 
   isUpdateAvailable: ->
