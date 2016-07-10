@@ -1,6 +1,6 @@
 {shell} = require 'electron'
 About = require '../lib/main'
-{$} = require 'atom-space-pen-views'
+$ = require 'jquery'
 
 describe "About", ->
   workspaceElement = null
