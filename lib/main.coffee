@@ -12,6 +12,7 @@ AboutURI = 'atom://about'
 getUpdateManager = ->
   unless updateManager?
     UpdateManager ?= require './update-manager'
+    debugger
     updateManager = new UpdateManager
   updateManager
 
@@ -58,7 +59,11 @@ module.exports =
       AboutView ?= require './about-view.js'
       updateManager = getUpdateManager()
       debugger
-      @aboutView = new AboutView({uri: AboutURI, updateManager})
+      @aboutView = new AboutView({
+        uri: AboutURI,
+        updateManager,
+        availableVersion: updateManager.getAvailableVersion()
+      })
     debugger
     @aboutView
 
