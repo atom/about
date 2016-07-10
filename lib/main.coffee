@@ -12,7 +12,6 @@ AboutURI = 'atom://about'
 getUpdateManager = ->
   unless updateManager?
     UpdateManager ?= require './update-manager'
-    debugger
     updateManager = new UpdateManager
   updateManager
 
@@ -57,7 +56,7 @@ module.exports =
   deserializeAboutView: (state) ->
     unless @aboutView?
       AboutView ?= require './about-view.js'
-      updateManager = getUpdateManager()
+      @updateManager = getUpdateManager()
       @aboutView = new AboutView({
         uri: AboutURI,
         updateManager,
@@ -66,7 +65,7 @@ module.exports =
 
       updateManager.onDidChange => @aboutView.update({
         uri: AboutURI,
-        updateManager,
+        updateManager: @updateManager,
         availableVersion: updateManager.getAvailableVersion()
       })
     @aboutView

@@ -15,7 +15,8 @@
   },
   "dependencies": {
     "atom-space-pen-views": "^2.0.5",
-    "etch": "^0.6.0"
+    "etch": "^0.6.0",
+    "jquery": "^2.1.4"
   },
   "devDependencies": {
     "babel-eslint": "^4.1.6",
