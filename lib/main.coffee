@@ -59,15 +59,16 @@ module.exports =
       @updateManager = getUpdateManager()
       @aboutView = new AboutView({
         uri: AboutURI,
-        updateManager,
-        availableVersion: updateManager.getAvailableVersion()
+        updateManager: @updateManager,
+        availableVersion: @updateManager.getAvailableVersion()
       })
 
-      updateManager.onDidChange => @aboutView.update({
-        uri: AboutURI,
-        updateManager: @updateManager,
-        availableVersion: updateManager.getAvailableVersion()
-      })
+      updateManager.onDidChange =>
+        @aboutView.update({
+          uri: AboutURI,
+          updateManager: @updateManager,
+          availableVersion: @updateManager.getAvailableVersion()
+        })
     @aboutView
 
   isUpdateAvailable: ->
