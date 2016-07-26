@@ -86,9 +86,6 @@ describe('updates', () => {
     })
 
     it('shows the correct panels when the app checks for updates and there is no update available', () => {
-      // TODO: remove when this function is in beta / stable
-      // return unless atom.autoUpdater?.onUpdateError?
-
       waitsForPromise(() => {
         return scheduler.getNextUpdatePromise()
       })
