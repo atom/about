@@ -28,13 +28,14 @@ describe "updates", ->
 
   describe "when the updates are not supported by the platform", ->
     it "hides the auto update UI", ->
-      runs ->
-        atom.autoUpdater.platformSupportsUpdates.andReturn(false)
-        updateManager.resetState()
+      atom.autoUpdater.platformSupportsUpdates.andReturn(false)
+      updateManager.resetState()
 
       waitsForPromise ->
-        scheduler.getNextUpdatePromise().then ->
-          expect(aboutElement.querySelector('.about-updates')).not.toBeVisible()
+        scheduler.getNextUpdatePromise()
+
+      runs ->
+        expect(aboutElement.querySelector('.about-updates')).not.toBeVisible()
 
   describe "when updates are supported by the platform", ->
     beforeEach ->
@@ -42,12 +43,7 @@ describe "updates", ->
       updateManager.resetState()
 
     it "shows the auto update UI", ->
-      runs ->
-        updateManager.resetState()
-
-      waitsForPromise ->
-        scheduler.getNextUpdatePromise().then ->
-          expect(aboutElement.querySelector('.about-updates')).toBeVisible()
+      expect(aboutElement.querySelector('.about-updates')).toBeVisible()
 
     it "shows the correct panels when the app checks for updates and there is no update available", ->
       expect(aboutElement.querySelector('.about-default-update-message')).toBeVisible()
@@ -56,85 +52,100 @@ describe "updates", ->
         MockUpdater.checkForUpdate()
 
       waitsForPromise ->
-        scheduler.getNextUpdatePromise().then ->
-          expect(aboutElement.querySelector('.app-up-to-date')).not.toBeVisible()
-          expect(aboutElement.querySelector('.app-checking-for-updates')).toBeVisible()
+        scheduler.getNextUpdatePromise()
 
       runs ->
+        expect(aboutElement.querySelector('.app-up-to-date')).not.toBeVisible()
+        expect(aboutElement.querySelector('.app-checking-for-updates')).toBeVisible()
+
         MockUpdater.updateNotAvailable()
 
       waitsForPromise ->
-        scheduler.getNextUpdatePromise().then ->
-          expect(aboutElement.querySelector('.app-up-to-date')).toBeVisible()
-          expect(aboutElement.querySelector('.app-checking-for-updates')).not.toBeVisible()
+        scheduler.getNextUpdatePromise()
+
+      runs ->
+        expect(aboutElement.querySelector('.app-up-to-date')).toBeVisible()
+        expect(aboutElement.querySelector('.app-checking-for-updates')).not.toBeVisible()
 
     it "shows the correct panels when the app checks for updates and there is no update available", ->
       # TODO: remove when this function is in beta / stable
       # return unless atom.autoUpdater?.onUpdateError?
 
       waitsForPromise ->
-        scheduler.getNextUpdatePromise().then ->
-          expect(aboutElement.querySelector('.about-default-update-message')).toBeVisible()
+        scheduler.getNextUpdatePromise()
+
+      runs ->
+        expect(aboutElement.querySelector('.about-default-update-message')).toBeVisible()
 
       runs ->
         MockUpdater.checkForUpdate()
 
       waitsForPromise ->
-        scheduler.getNextUpdatePromise().then ->
-          expect(aboutElement.querySelector('.app-up-to-date')).not.toBeVisible()
-          expect(aboutElement.querySelector('.app-checking-for-updates')).toBeVisible()
+        scheduler.getNextUpdatePromise()
+
+      runs ->
+        expect(aboutElement.querySelector('.app-up-to-date')).not.toBeVisible()
+        expect(aboutElement.querySelector('.app-checking-for-updates')).toBeVisible()
 
       runs ->
         spyOn(atom.autoUpdater, 'getErrorMessage').andReturn('an error message')
         MockUpdater.updateError()
 
       waitsForPromise ->
-        scheduler.getNextUpdatePromise().then ->
-          expect(aboutElement.querySelector('.app-update-error')).toBeVisible()
-          expect(aboutElement.querySelector('.app-error-message').textContent).toBe 'an error message'
-          expect(aboutElement.querySelector('.app-checking-for-updates')).not.toBeVisible()
-          expect(aboutElement.querySelector('.about-update-action-button').disabled).toBe false
-          expect(aboutElement.querySelector('.about-update-action-button').textContent).toBe 'Check now'
+        scheduler.getNextUpdatePromise()
+
+      runs ->
+        expect(aboutElement.querySelector('.app-update-error')).toBeVisible()
+        expect(aboutElement.querySelector('.app-error-message').textContent).toBe 'an error message'
+        expect(aboutElement.querySelector('.app-checking-for-updates')).not.toBeVisible()
+        expect(aboutElement.querySelector('.about-update-action-button').disabled).toBe false
+        expect(aboutElement.querySelector('.about-update-action-button').textContent).toBe 'Check now'
 
     it "shows the correct panels and button states when the app checks for updates and an update is downloaded", ->
       waitsForPromise ->
-        scheduler.getNextUpdatePromise().then ->
-          expect(aboutElement.querySelector('.about-default-update-message')).toBeVisible()
-          expect(aboutElement.querySelector('.about-update-action-button').disabled).toBe false
-          expect(aboutElement.querySelector('.about-update-action-button').textContent).toBe 'Check now'
+        scheduler.getNextUpdatePromise()
+
+      runs ->
+        expect(aboutElement.querySelector('.about-default-update-message')).toBeVisible()
+        expect(aboutElement.querySelector('.about-update-action-button').disabled).toBe false
+        expect(aboutElement.querySelector('.about-update-action-button').textContent).toBe 'Check now'
 
       runs ->
         MockUpdater.checkForUpdate()
 
       waitsForPromise ->
-        scheduler.getNextUpdatePromise().then ->
-          expect(aboutElement.querySelector('.app-up-to-date')).not.toBeVisible()
-          expect(aboutElement.querySelector('.app-checking-for-updates')).toBeVisible()
-          expect(aboutElement.querySelector('.about-update-action-button').disabled).toBe true
-          expect(aboutElement.querySelector('.about-update-action-button').textContent).toBe 'Check now'
+        scheduler.getNextUpdatePromise()
 
       runs ->
+        expect(aboutElement.querySelector('.app-up-to-date')).not.toBeVisible()
+        expect(aboutElement.querySelector('.app-checking-for-updates')).toBeVisible()
+        expect(aboutElement.querySelector('.about-update-action-button').disabled).toBe true
+        expect(aboutElement.querySelector('.about-update-action-button').textContent).toBe 'Check now'
+
         MockUpdater.downloadUpdate()
 
       waitsForPromise ->
-        scheduler.getNextUpdatePromise().then ->
-          expect(aboutElement.querySelector('.app-checking-for-updates')).not.toBeVisible()
-          expect(aboutElement.querySelector('.app-downloading-update')).toBeVisible()
-          # TODO: at some point it would be nice to be able to cancel an update download, and then this would be a cancel button
-          expect(aboutElement.querySelector('.about-update-action-button').disabled).toBe true
-          expect(aboutElement.querySelector('.about-update-action-button').textContent).toBe 'Check now'
+        scheduler.getNextUpdatePromise()
 
       runs ->
+        expect(aboutElement.querySelector('.app-checking-for-updates')).not.toBeVisible()
+        expect(aboutElement.querySelector('.app-downloading-update')).toBeVisible()
+        # TODO: at some point it would be nice to be able to cancel an update download, and then this would be a cancel button
+        expect(aboutElement.querySelector('.about-update-action-button').disabled).toBe true
+        expect(aboutElement.querySelector('.about-update-action-button').textContent).toBe 'Check now'
+
         MockUpdater.finishDownloadingUpdate(42)
 
       waitsForPromise ->
-        scheduler.getNextUpdatePromise().then ->
-          expect(aboutElement.querySelector('.app-downloading-update')).not.toBeVisible()
-          expect(aboutElement.querySelector('.app-update-available-to-install')).toBeVisible()
+        scheduler.getNextUpdatePromise()
 
-          expect(aboutElement.querySelector('.app-update-available-to-install .about-updates-version').textContent).toBe('42')
-          expect(aboutElement.querySelector('.about-update-action-button').disabled).toBe false
-          expect(aboutElement.querySelector('.about-update-action-button').textContent).toBe 'Restart and install'
+      runs ->
+        expect(aboutElement.querySelector('.app-downloading-update')).not.toBeVisible()
+        expect(aboutElement.querySelector('.app-update-available-to-install')).toBeVisible()
+
+        expect(aboutElement.querySelector('.app-update-available-to-install .about-updates-version').textContent).toBe('42')
+        expect(aboutElement.querySelector('.about-update-action-button').disabled).toBe false
+        expect(aboutElement.querySelector('.about-update-action-button').textContent).toBe 'Restart and install'
 
     it "opens the release notes for the downloaded release when the release notes link are clicked", ->
       MockUpdater.finishDownloadingUpdate('1.2.3')
