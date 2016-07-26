@@ -1,6 +1,5 @@
 {shell} = require 'electron'
 About = require '../lib/main'
-$ = require 'jquery'
 MockUpdater = require './mocks/updater'
 etch = require 'etch'
 

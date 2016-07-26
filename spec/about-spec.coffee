@@ -1,6 +1,5 @@
 {shell} = require 'electron'
 About = require '../lib/main'
-$ = require 'jquery'
 
 describe "About", ->
   workspaceElement = null
@@ -39,5 +38,5 @@ describe "About", ->
       runs ->
         aboutElement = workspaceElement.querySelector('.about')
         versionContainer = aboutElement.querySelector('.about-version-container')
-        $(versionContainer).click()
+        versionContainer.click()
         expect(atom.clipboard.read()).toBe atom.getVersion()

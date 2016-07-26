@@ -1,4 +1,3 @@
-$ = require('jquery')
 Updater = require('./mocks/updater')
 
 describe "the status bar", ->
@@ -38,7 +37,7 @@ describe "the status bar", ->
     describe "clicking on the status", ->
       it "opens the about page", ->
         Updater.triggerUpdate('42')
-        $(workspaceElement).find('.about-release-notes').trigger('click')
+        workspaceElement.querySelector('.about-release-notes').click()
 
         waitsFor ->
           workspaceElement.querySelector('.about')
