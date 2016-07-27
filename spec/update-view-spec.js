@@ -28,8 +28,8 @@ describe('updates', () => {
     })
     runs(() => {
       aboutElement = workspaceElement.querySelector('.about')
-      updateManager = About.updateManager
-      scheduler = About.aboutView.getScheduler()
+      updateManager = About.model.state.updateManager
+      scheduler = About.model.views.aboutView.getScheduler()
     })
   })
 
@@ -303,7 +303,7 @@ describe('updates', () => {
         atom.workspace.getActivePane().destroyActiveItem()
         atom.workspace.open('atom://about')
 
-        About.aboutView.componentDidMount(() => {
+        About.model.views.aboutView.componentDidMount(() => {
           expect(atom.autoUpdater.checkForUpdate).toHaveBeenCalled()
         })
       })
@@ -316,7 +316,7 @@ describe('updates', () => {
         atom.workspace.getActivePane().destroyActiveItem()
         atom.workspace.open('atom://about')
 
-        About.aboutView.componentDidMount(() => {
+        About.model.views.aboutView.componentDidMount(() => {
           expect(atom.autoUpdater.checkForUpdate).not.toHaveBeenCalled()
         })
       })
@@ -328,7 +328,7 @@ describe('updates', () => {
         atom.workspace.getActivePane().destroyActiveItem()
         atom.workspace.open('atom://about')
 
-        About.aboutView.componentDidMount(() => {
+        About.model.views.aboutView.componentDidMount(() => {
           expect(atom.autoUpdater.checkForUpdate).not.toHaveBeenCalled()
         })
       })
