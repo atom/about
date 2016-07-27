@@ -72,19 +72,16 @@ class AboutView extends ScrollView
 
         @p class: 'about-metrics group-start', =>
           @raw '''
-              <strong>Note:</strong> To help us improve Atom, we anonymously
-              track usage metrics, such as launch time, screen size, and current
-              version. See the
-              <a class="metrics-open" data-event="atom-metrics">atom/metrics</a>
-              package for details and instructions to disable it.
-            '''
+              Atom sends anoymous usage stats only with your consent.
+              See the <a class="metrics-open" data-event="atom-metrics">atom/metrics</a>
+              package for more information or to change your decision.'''
 
         @div class: 'about-actions group-item', =>
           @div class: 'btn-group', =>
             @button class: 'btn view-license', outlet: 'viewLicense', 'License'
             @button class: 'btn terms-of-use', outlet: 'viewTerms', 'Terms of Use'
 
-        @div class: 'about-love group-start', outlet: 'love', =>
+        @div class: 'about-love group-start', =>
           @span class: 'icon icon-code'
           @span class: 'inline', ' with '
           @span class: 'icon icon-heart'
