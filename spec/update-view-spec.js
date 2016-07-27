@@ -241,20 +241,18 @@ describe('updates', () => {
       beforeEach(() => {
         atom.config.set('core.automaticallyUpdate', true)
         atom.autoUpdater.checkForUpdate.reset()
-      })
 
-      it('shows the auto update UI', () => {
         waitsForPromise(() => {
           return scheduler.getNextUpdatePromise()
         })
+      })
 
-        runs(() => {
-          expect(aboutElement.querySelector('.about-auto-updates input').checked).toBe(true)
-          expect(aboutElement.querySelector('.about-default-update-message')).toBeVisible()
-          expect(aboutElement.querySelector('.about-default-update-message').textContent).toBe('Atom will check for updates automatically')
+      it('shows the auto update UI', () => {
+        expect(aboutElement.querySelector('.about-auto-updates input').checked).toBe(true)
+        expect(aboutElement.querySelector('.about-default-update-message')).toBeVisible()
+        expect(aboutElement.querySelector('.about-default-update-message').textContent).toBe('Atom will check for updates automatically')
 
-          atom.config.set('core.automaticallyUpdate', false)
-        })
+        atom.config.set('core.automaticallyUpdate', false)
 
         waitsForPromise(() => {
           return scheduler.getNextUpdatePromise()
