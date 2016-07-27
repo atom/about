@@ -5,9 +5,10 @@ import About from '../lib/main'
 import MockUpdater from './mocks/updater'
 
 describe('updates', () => {
-  let [aboutElement, updateManager, workspaceElement] = []
-
-  let scheduler = null
+  let aboutElement
+  let updateManager
+  let workspaceElement
+  let scheduler
 
   beforeEach(() => {
     workspaceElement = atom.views.getView(atom.workspace)
@@ -85,7 +86,7 @@ describe('updates', () => {
       })
     })
 
-    it('shows the correct panels when the app checks for updates and there is no update available', () => {
+    it('shows the correct panels when the app checks for updates and encounters an error', () => {
       waitsForPromise(() => {
         return scheduler.getNextUpdatePromise()
       })

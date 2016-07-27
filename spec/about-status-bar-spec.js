@@ -1,6 +1,6 @@
 /** @babel */
 
-import Updater from './mocks/updater'
+import MockUpdater from './mocks/updater'
 
 describe('the status bar', () => {
   let workspaceElement = null
@@ -45,13 +45,13 @@ describe('the status bar', () => {
 
   describe('with an update', () => {
     it('shows the view when the update is made available', () => {
-      Updater.triggerUpdate('42')
+      MockUpdater.triggerUpdate('42')
       expect(workspaceElement).toContain('.about-release-notes')
     })
 
     describe('clicking on the status', () => {
       it('opens the about page', () => {
-        Updater.triggerUpdate('42')
+        MockUpdater.triggerUpdate('42')
         workspaceElement.querySelector('.about-release-notes').click()
 
         waitsFor(() => {
@@ -65,7 +65,7 @@ describe('the status bar', () => {
     })
 
     it('continues to show the squirrel until Atom is updated to the new version', () => {
-      Updater.triggerUpdate('42')
+      MockUpdater.triggerUpdate('42')
       expect(workspaceElement).toContain('.about-release-notes')
 
       runs(() => {

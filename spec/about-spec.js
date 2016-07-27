@@ -1,7 +1,7 @@
 /** @babel */
 
 describe('About', () => {
-  let workspaceElement = null
+  let workspaceElement
 
   beforeEach(() => {
     workspaceElement = atom.views.getView(atom.workspace)
