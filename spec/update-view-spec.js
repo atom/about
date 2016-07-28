@@ -2,6 +2,7 @@
 
 import {shell} from 'electron'
 import About from '../lib/main'
+import AboutView from '../lib/about-view'
 import MockUpdater from './mocks/updater'
 
 describe('updates', () => {
@@ -29,7 +30,7 @@ describe('updates', () => {
     runs(() => {
       aboutElement = workspaceElement.querySelector('.about')
       updateManager = About.model.state.updateManager
-      scheduler = About.model.views.aboutView.getScheduler()
+      scheduler = AboutView.getScheduler()
     })
   })
 
