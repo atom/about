@@ -3,6 +3,7 @@
 import {shell} from 'electron'
 import About from '../lib/main'
 import AboutView from '../lib/about-view'
+import UpdateView from '../lib/update-view'
 import MockUpdater from './mocks/updater'
 
 describe('updates', () => {
@@ -296,38 +297,47 @@ describe('updates', () => {
         })
       })
 
-      it('checks for update when the about page is shown', () => {
-        expect(atom.autoUpdater.checkForUpdate).not.toHaveBeenCalled()
+      describe('checking for updates', function () {
+        afterEach(() => {
+          this.updateView = null
+        })
 
-        atom.workspace.getActivePane().destroyActiveItem()
-        atom.workspace.open('atom://about')
+        it('checks for update when the about page is shown', () => {
+          expect(atom.autoUpdater.checkForUpdate).not.toHaveBeenCalled()
 
-        About.model.views.aboutView.componentDidMount(() => {
+          this.updateView = new UpdateView({
+            updateManager: updateManager,
+            availableVersion: '9999.0.0',
+            viewUpdateReleaseNotes: () => {}
+          })
+
           expect(atom.autoUpdater.checkForUpdate).toHaveBeenCalled()
         })
-      })
 
-      it('does not check for update when the about page is shown and the update manager is not in the idle state', () => {
-        atom.autoUpdater.getState.andReturn('downloading')
-        updateManager.resetState()
-        expect(atom.autoUpdater.checkForUpdate).not.toHaveBeenCalled()
+        it('does not check for update when the about page is shown and the update manager is not in the idle state', () => {
+          atom.autoUpdater.getState.andReturn('downloading')
+          updateManager.resetState()
+          expect(atom.autoUpdater.checkForUpdate).not.toHaveBeenCalled()
 
-        atom.workspace.getActivePane().destroyActiveItem()
-        atom.workspace.open('atom://about')
+          this.updateView = new UpdateView({
+            updateManager: updateManager,
+            availableVersion: '9999.0.0',
+            viewUpdateReleaseNotes: () => {}
+          })
 
-        About.model.views.aboutView.componentDidMount(() => {
           expect(atom.autoUpdater.checkForUpdate).not.toHaveBeenCalled()
         })
-      })
 
-      it('does not check for update when the about page is shown and auto updates are turned off', () => {
-        atom.config.set('core.automaticallyUpdate', false)
-        expect(atom.autoUpdater.checkForUpdate).not.toHaveBeenCalled()
+        it('does not check for update when the about page is shown and auto updates are turned off', () => {
+          atom.config.set('core.automaticallyUpdate', false)
+          expect(atom.autoUpdater.checkForUpdate).not.toHaveBeenCalled()
 
-        atom.workspace.getActivePane().destroyActiveItem()
-        atom.workspace.open('atom://about')
+          this.updateView = new UpdateView({
+            updateManager: updateManager,
+            availableVersion: '9999.0.0',
+            viewUpdateReleaseNotes: () => {}
+          })
 
-        About.model.views.aboutView.componentDidMount(() => {
           expect(atom.autoUpdater.checkForUpdate).not.toHaveBeenCalled()
         })
       })
