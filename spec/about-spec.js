@@ -11,6 +11,15 @@ describe('About', () => {
     })
   })
 
+  it('deserializes correctly', () => {
+    let deserializedAboutView = atom.deserializers.deserialize({
+      deserializer: 'AboutView',
+      uri: 'atom://about'
+    })
+
+    expect(deserializedAboutView).toBeTruthy()
+  })
+
   describe('when the about:about-atom command is triggered', () => {
     it('shows the About Atom view', () => {
       // Attaching the workspaceElement to the DOM is required to allow the
