@@ -2,8 +2,8 @@
 
 import {shell} from 'electron'
 import About from '../lib/main'
-import AboutView from '../lib/about-view'
-import UpdateView from '../lib/update-view'
+import AboutView from '../lib/components/about-view'
+import UpdateView from '../lib/components/update-view'
 import MockUpdater from './mocks/updater'
 
 describe('updates', () => {
