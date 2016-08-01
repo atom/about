@@ -1,21 +1,23 @@
 {
   "name": "about",
   "author": "Machisté N. Quintana <mnquintana@users.noreply.github.com>",
-  "main": "./lib/about",
+  "main": "./lib/main",
   "version": "1.5.3",
   "description": "View useful information about your Atom installation.",
   "keywords": [],
   "repository": "https://github.com/atom/about",
   "license": "MIT",
+  "scripts": {
+    "lint": "standard"
+  },
   "engines": {
-    "atom": ">=0.210.0 <2.0.0"
+    "atom": ">=1.7 <2.0.0"
   },
   "dependencies": {
-    "atom-space-pen-views": "^2.0.5"
+    "etch": "^0.6.0"
   },
   "devDependencies": {
     "babel-eslint": "^4.1.6",
-    "coffeelint": "^1.9.7",
     "standard": "^5.4.1"
   },
   "consumedServices": {
@@ -45,6 +47,7 @@
       "jasmine",
       "runs",
       "spyOn",
+      "waits",
       "waitsFor",
       "waitsForPromise"
     ]

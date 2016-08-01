@@ -4,6 +4,7 @@ import UpdateManager from '../lib/update-manager'
 
 describe('UpdateManager', () => {
   let updateManager
+
   beforeEach(() => {
     updateManager = new UpdateManager()
   })
