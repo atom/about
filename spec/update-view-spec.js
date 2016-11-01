@@ -1,7 +1,7 @@
 /** @babel */
 
 import {shell} from 'electron'
-import {it, fit, ffit, fffit, beforeEach, afterEach} from './helpers/async-spec-helpers'
+import {it, fit, ffit, fffit, beforeEach, afterEach} from './helpers/async-spec-helpers' // eslint-disable-line no-unused-vars
 import About from '../lib/main'
 import AboutView from '../lib/components/about-view'
 import UpdateView from '../lib/components/update-view'

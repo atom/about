@@ -1,6 +1,6 @@
 /** @babel */
 
-import {it, fit, ffit, fffit, beforeEach, afterEach} from './helpers/async-spec-helpers'
+import {it, fit, ffit, fffit, beforeEach, afterEach} from './helpers/async-spec-helpers' // eslint-disable-line no-unused-vars
 
 describe('About', () => {
   let workspaceElement

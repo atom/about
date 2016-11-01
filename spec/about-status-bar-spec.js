@@ -1,6 +1,6 @@
 /** @babel */
 
-import {it, fit, ffit, fffit, beforeEach, afterEach, conditionPromise} from './helpers/async-spec-helpers'
+import {it, fit, ffit, fffit, beforeEach, afterEach, conditionPromise} from './helpers/async-spec-helpers' // eslint-disable-line no-unused-vars
 import MockUpdater from './mocks/updater'
 
 describe('the status bar', () => {
