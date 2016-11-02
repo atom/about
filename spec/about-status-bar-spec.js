@@ -1,11 +1,12 @@
 /** @babel */
 
+import {it, fit, ffit, fffit, beforeEach, afterEach, conditionPromise} from './helpers/async-spec-helpers' // eslint-disable-line no-unused-vars
 import MockUpdater from './mocks/updater'
 
 describe('the status bar', () => {
-  let workspaceElement = null
+  let workspaceElement
 
-  beforeEach(() => {
+  beforeEach(async () => {
     let storage = {}
 
     spyOn(window.localStorage, 'setItem').andCallFake((key, value) => {
@@ -19,17 +20,9 @@ describe('the status bar', () => {
 
     workspaceElement = atom.views.getView(atom.workspace)
 
-    waitsForPromise(() => {
-      return atom.packages.activatePackage('status-bar')
-    })
-
-    waitsForPromise(() => {
-      return atom.packages.activatePackage('about')
-    })
-
-    waitsForPromise(() => {
-      return atom.workspace.open('sample.js')
-    })
+    await atom.packages.activatePackage('status-bar')
+    await atom.packages.activatePackage('about')
+    await atom.workspace.open('sample.js')
   })
 
   afterEach(() => {
@@ -50,53 +43,33 @@ describe('the status bar', () => {
     })
 
     describe('clicking on the status', () => {
-      it('opens the about page', () => {
+      it('opens the about page', async () => {
         MockUpdater.triggerUpdate('42')
         workspaceElement.querySelector('.about-release-notes').click()
-
-        waitsFor(() => {
-          return workspaceElement.querySelector('.about')
-        })
-
-        runs(() => {
-          expect(workspaceElement.querySelector('.about')).toExist()
-        })
+        await conditionPromise(() => workspaceElement.querySelector('.about'))
+        expect(workspaceElement.querySelector('.about')).toExist()
       })
     })
 
-    it('continues to show the squirrel until Atom is updated to the new version', () => {
+    it('continues to show the squirrel until Atom is updated to the new version', async () => {
       MockUpdater.triggerUpdate('42')
       expect(workspaceElement).toContain('.about-release-notes')
 
-      runs(() => {
-        atom.packages.deactivatePackage('about')
-        expect(workspaceElement).not.toContain('.about-release-notes')
-      })
+      atom.packages.deactivatePackage('about')
+      expect(workspaceElement).not.toContain('.about-release-notes')
 
-      waitsForPromise(() => {
-        return atom.packages.activatePackage('about')
-      })
-      waits(1) // Service consumption hooks are deferred until the next tick
-      runs(() => {
-        expect(workspaceElement).toContain('.about-release-notes')
-      })
+      await atom.packages.activatePackage('about')
+      await Promise.resolve() // Service consumption hooks are deferred until the next tick
+      expect(workspaceElement).toContain('.about-release-notes')
 
-      runs(() => {
-        atom.packages.deactivatePackage('about')
-        expect(workspaceElement).not.toContain('.about-release-notes')
-      })
+      atom.packages.deactivatePackage('about')
+      expect(workspaceElement).not.toContain('.about-release-notes')
 
-      runs(() => {
-        spyOn(atom, 'getVersion').andReturn('42')
-      })
+      spyOn(atom, 'getVersion').andReturn('42')
+      await atom.packages.activatePackage('about')
 
-      waitsForPromise(() => {
-        return atom.packages.activatePackage('about')
-      })
-      waits(1) // Service consumption hooks are deferred until the next tick
-      runs(() => {
-        expect(workspaceElement).not.toContain('.about-release-notes')
-      })
+      await Promise.resolve() // Service consumption hooks are deferred until the next tick
+      expect(workspaceElement).not.toContain('.about-release-notes')
     })
   })
 })
