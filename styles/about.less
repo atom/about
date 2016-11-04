@@ -137,17 +137,16 @@
   .icon::before {
     // Make these octicons look good inlined with text
     position: relative;
-    top: 1px;
     width: auto;
+    height: auto;
     margin-right: 0;
     font-size: 1.5em;
+    vertical-align: text-top;
   }
 
   .icon-logo-github::before {
-    // This Octicon has a lot of extra whitespace at the bottom, so it needs
-    // to be moved down more to compensate.
-    // See https://github.com/github/octicons/issues/59
-    top: 3px;
+    font-size: 3.6em;
+    height: .36em;
   }
 }
 
