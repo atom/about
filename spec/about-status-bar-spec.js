@@ -35,7 +35,7 @@ describe('the status bar', () => {
   })
 
   describe('with an update', () => {
-    it('shows the view when the update is made available', () => {
+    it('shows the view when the update finishes downloading', () => {
       MockUpdater.finishDownloadingUpdate('42')
       expect(workspaceElement).toContain('.about-release-notes')
     })
