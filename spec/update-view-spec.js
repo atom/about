@@ -14,6 +14,15 @@ describe('updates', () => {
   let scheduler
 
   beforeEach(async () => {
+    let storage = {}
+
+    spyOn(window.localStorage, 'setItem').andCallFake((key, value) => {
+      storage[key] = value
+    })
+    spyOn(window.localStorage, 'getItem').andCallFake((key) => {
+      return storage[key]
+    })
+
     workspaceElement = atom.views.getView(atom.workspace)
     await atom.packages.activatePackage('about')
     spyOn(atom.autoUpdater, 'getState').andReturn('idle')
