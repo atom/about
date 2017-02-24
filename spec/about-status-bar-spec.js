@@ -16,8 +16,6 @@ describe('the status bar', () => {
       return storage[key]
     })
 
-    spyOn(atom, 'isReleasedVersion').andReturn(true)
-
     workspaceElement = atom.views.getView(atom.workspace)
 
     await atom.packages.activatePackage('status-bar')
@@ -37,14 +35,14 @@ describe('the status bar', () => {
   })
 
   describe('with an update', () => {
-    it('shows the view when the update is made available', () => {
-      MockUpdater.triggerUpdate('42')
+    it('shows the view when the update finishes downloading', () => {
+      MockUpdater.finishDownloadingUpdate('42')
       expect(workspaceElement).toContain('.about-release-notes')
     })
 
     describe('clicking on the status', () => {
       it('opens the about page', async () => {
-        MockUpdater.triggerUpdate('42')
+        MockUpdater.finishDownloadingUpdate('42')
         workspaceElement.querySelector('.about-release-notes').click()
         await conditionPromise(() => workspaceElement.querySelector('.about'))
         expect(workspaceElement.querySelector('.about')).toExist()
@@ -52,7 +50,7 @@ describe('the status bar', () => {
     })
 
     it('continues to show the squirrel until Atom is updated to the new version', async () => {
-      MockUpdater.triggerUpdate('42')
+      MockUpdater.finishDownloadingUpdate('42')
       expect(workspaceElement).toContain('.about-release-notes')
 
       atom.packages.deactivatePackage('about')
