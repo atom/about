@@ -2,7 +2,7 @@
 
 import {shell} from 'electron'
 import {it, fit, ffit, fffit, beforeEach, afterEach} from './helpers/async-spec-helpers' // eslint-disable-line no-unused-vars
-import About from '../lib/main'
+import main from '../lib/main'
 import AboutView from '../lib/components/about-view'
 import UpdateView from '../lib/components/update-view'
 import MockUpdater from './mocks/updater'
@@ -32,7 +32,7 @@ describe('updates', () => {
     jasmine.attachToDOM(workspaceElement)
     await atom.workspace.open('atom://about')
     aboutElement = workspaceElement.querySelector('.about')
-    updateManager = About.model.state.updateManager
+    updateManager = main.model.state.updateManager
     scheduler = AboutView.getScheduler()
   })
 
