@@ -23,9 +23,9 @@ describe('the status bar', () => {
     await atom.workspace.open('sample.js')
   })
 
-  afterEach(() => {
-    atom.packages.deactivatePackage('about')
-    atom.packages.deactivatePackage('status-bar')
+  afterEach(async () => {
+    await atom.packages.deactivatePackage('about')
+    await atom.packages.deactivatePackage('status-bar')
   })
 
   describe('with no update', () => {
@@ -53,14 +53,14 @@ describe('the status bar', () => {
       MockUpdater.finishDownloadingUpdate('42')
       expect(workspaceElement).toContain('.about-release-notes')
 
-      atom.packages.deactivatePackage('about')
+      await atom.packages.deactivatePackage('about')
       expect(workspaceElement).not.toContain('.about-release-notes')
 
       await atom.packages.activatePackage('about')
       await Promise.resolve() // Service consumption hooks are deferred until the next tick
       expect(workspaceElement).toContain('.about-release-notes')
 
-      atom.packages.deactivatePackage('about')
+      await atom.packages.deactivatePackage('about')
       expect(workspaceElement).not.toContain('.about-release-notes')
 
       spyOn(atom, 'getVersion').andReturn('42')
