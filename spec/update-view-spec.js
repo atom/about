@@ -58,7 +58,7 @@ describe('UpdateView', () => {
 
         let args = shell.openExternal.mostRecentCall.args
         expect(shell.openExternal).toHaveBeenCalled()
-        expect(args[0]).toContain('#installing')
+        expect(args[0]).toContain('installing-atom')
       })
     })
 
