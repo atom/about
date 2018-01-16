@@ -40,11 +40,25 @@ describe('UpdateView', () => {
     })
 
     describe('when the updates are not supported by the platform', () => {
-      it('hides the auto update UI', async () => {
+      beforeEach(async () => {
         atom.autoUpdater.platformSupportsUpdates.andReturn(false)
         updateManager.resetState()
         await scheduler.getNextUpdatePromise()
-        expect(aboutElement.querySelector('.about-updates')).not.toBeVisible()
+      })
+
+      it('hides the auto update UI and shows the update instructions link', async () => {
+        expect(aboutElement.querySelector('.about-update-action-button')).not.toBeVisible()
+        expect(aboutElement.querySelector('.about-auto-updates')).not.toBeVisible()
+      })
+
+      it('opens the update instructions page when the instructions link is clicked', async () => {
+        spyOn(shell, 'openExternal')
+        let link = aboutElement.querySelector('.app-unsupported .about-updates-instructions')
+        link.click()
+
+        let args = shell.openExternal.mostRecentCall.args
+        expect(shell.openExternal).toHaveBeenCalled()
+        expect(args[0]).toContain('installing-atom')
       })
     })
 
