@@ -2,7 +2,7 @@
   "name": "about",
   "author": "Machisté N. Quintana <mnquintana@users.noreply.github.com>",
   "main": "./lib/main",
-  "version": "1.8.1",
+  "version": "1.8.2",
   "description": "View useful information about your Atom installation.",
   "keywords": [],
   "repository": "https://github.com/atom/about",
