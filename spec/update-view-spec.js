@@ -126,12 +126,12 @@ describe('UpdateView', () => {
         expect(aboutElement.querySelector('.about-update-action-button').disabled).toBe(true)
         expect(aboutElement.querySelector('.about-update-action-button').textContent).toBe('Check now')
 
-        MockUpdater.finishDownloadingUpdate(42)
+        MockUpdater.finishDownloadingUpdate('42.0.0')
         await scheduler.getNextUpdatePromise()
         expect(aboutElement.querySelector('.app-downloading-update')).not.toBeVisible()
         expect(aboutElement.querySelector('.app-update-available-to-install')).toBeVisible()
 
-        expect(aboutElement.querySelector('.app-update-available-to-install .about-updates-version').textContent).toBe('42')
+        expect(aboutElement.querySelector('.app-update-available-to-install .about-updates-version').textContent).toBe('42.0.0')
         expect(aboutElement.querySelector('.about-update-action-button').disabled).toBe(false)
         expect(aboutElement.querySelector('.about-update-action-button').textContent).toBe('Restart and install')
       })
@@ -157,7 +157,7 @@ describe('UpdateView', () => {
 
       it('executes restartAndInstallUpdate() when the restart and install button is clicked', async () => {
         spyOn(atom.autoUpdater, 'restartAndInstallUpdate')
-        MockUpdater.finishDownloadingUpdate(42)
+        MockUpdater.finishDownloadingUpdate('42.0.0')
         await scheduler.getNextUpdatePromise()
 
         let button = aboutElement.querySelector('.about-update-action-button')
@@ -265,7 +265,7 @@ describe('UpdateView', () => {
 
   describe('when the About page is not open and an update is downloaded', () => {
     it('should display the new version when it is opened', async () => {
-      MockUpdater.finishDownloadingUpdate(42)
+      MockUpdater.finishDownloadingUpdate('42.0.0')
 
       jasmine.attachToDOM(workspaceElement)
       await atom.workspace.open('atom://about')
@@ -274,7 +274,7 @@ describe('UpdateView', () => {
       scheduler = AboutView.getScheduler()
 
       expect(aboutElement.querySelector('.app-update-available-to-install')).toBeVisible()
-      expect(aboutElement.querySelector('.app-update-available-to-install .about-updates-version').textContent).toBe('42')
+      expect(aboutElement.querySelector('.app-update-available-to-install .about-updates-version').textContent).toBe('42.0.0')
       expect(aboutElement.querySelector('.about-update-action-button').disabled).toBe(false)
       expect(aboutElement.querySelector('.about-update-action-button').textContent).toBe('Restart and install')
     })
