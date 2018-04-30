@@ -46,13 +46,13 @@ describe('the status bar', () => {
 
     describe('with an update', () => {
       it('shows the view when the update finishes downloading', () => {
-        MockUpdater.finishDownloadingUpdate('42')
+        MockUpdater.finishDownloadingUpdate('42.0.0')
         expect(workspaceElement).toContain('.about-release-notes')
       })
 
       describe('clicking on the status', () => {
         it('opens the about page', async () => {
-          MockUpdater.finishDownloadingUpdate('42')
+          MockUpdater.finishDownloadingUpdate('42.0.0')
           workspaceElement.querySelector('.about-release-notes').click()
           await conditionPromise(() => workspaceElement.querySelector('.about'))
           expect(workspaceElement.querySelector('.about')).toExist()
@@ -60,7 +60,7 @@ describe('the status bar', () => {
       })
 
       it('continues to show the squirrel until Atom is updated to the new version', async () => {
-        MockUpdater.finishDownloadingUpdate('42')
+        MockUpdater.finishDownloadingUpdate('42.0.0')
         expect(workspaceElement).toContain('.about-release-notes')
 
         await atom.packages.deactivatePackage('about')
@@ -73,7 +73,19 @@ describe('the status bar', () => {
         await atom.packages.deactivatePackage('about')
         expect(workspaceElement).not.toContain('.about-release-notes')
 
-        atomVersion = '42'
+        atomVersion = '42.0.0'
+        await atom.packages.activatePackage('about')
+
+        await Promise.resolve() // Service consumption hooks are deferred until the next tick
+        expect(workspaceElement).not.toContain('.about-release-notes')
+      })
+
+      it('does not show the view if Atom is updated to a newer version than notified', async () => {
+        MockUpdater.finishDownloadingUpdate('42.0.0')
+
+        await atom.packages.deactivatePackage('about')
+
+        atomVersion = '43.0.0'
         await atom.packages.activatePackage('about')
 
         await Promise.resolve() // Service consumption hooks are deferred until the next tick
@@ -97,13 +109,13 @@ describe('the status bar', () => {
 
     describe('with an update', () => {
       it('shows the view when the update finishes downloading', () => {
-        MockUpdater.finishDownloadingUpdate('42')
+        MockUpdater.finishDownloadingUpdate('42.0.0')
         expect(workspaceElement).toContain('.about-release-notes')
       })
 
       describe('clicking on the status', () => {
         it('opens the about page', async () => {
-          MockUpdater.finishDownloadingUpdate('42')
+          MockUpdater.finishDownloadingUpdate('42.0.0')
           workspaceElement.querySelector('.about-release-notes').click()
           await conditionPromise(() => workspaceElement.querySelector('.about'))
           expect(workspaceElement.querySelector('.about')).toExist()
@@ -111,7 +123,7 @@ describe('the status bar', () => {
       })
 
       it('continues to show the squirrel until Atom is updated to the new version', async () => {
-        MockUpdater.finishDownloadingUpdate('42')
+        MockUpdater.finishDownloadingUpdate('42.0.0')
         expect(workspaceElement).toContain('.about-release-notes')
 
         await atom.packages.deactivatePackage('about')
@@ -124,7 +136,19 @@ describe('the status bar', () => {
         await atom.packages.deactivatePackage('about')
         expect(workspaceElement).not.toContain('.about-release-notes')
 
-        atomVersion = '42'
+        atomVersion = '42.0.0'
+        await atom.packages.activatePackage('about')
+
+        await Promise.resolve() // Service consumption hooks are deferred until the next tick
+        expect(workspaceElement).not.toContain('.about-release-notes')
+      })
+
+      it('does not show the view if Atom is updated to a newer version than notified', async () => {
+        MockUpdater.finishDownloadingUpdate('42.0.0')
+
+        await atom.packages.deactivatePackage('about')
+
+        atomVersion = '43.0.0'
         await atom.packages.activatePackage('about')
 
         await Promise.resolve() // Service consumption hooks are deferred until the next tick
@@ -148,7 +172,7 @@ describe('the status bar', () => {
 
     describe('with a previously downloaded update', () => {
       it('does not show the view', () => {
-        window.localStorage.setItem('about:version-available', '42')
+        window.localStorage.setItem('about:version-available', '42.0.0')
 
         expect(workspaceElement).not.toContain('.about-release-notes')
       })
