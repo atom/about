@@ -1,11 +1,9 @@
-/** @babel */
-
-import {shell} from 'electron'
-import {it, fit, ffit, fffit, beforeEach, afterEach} from './helpers/async-spec-helpers' // eslint-disable-line no-unused-vars
-import main from '../lib/main'
-import AboutView from '../lib/components/about-view'
-import UpdateView from '../lib/components/update-view'
-import MockUpdater from './mocks/updater'
+const {shell} = require('electron')
+const {it, fit, ffit, fffit, beforeEach, afterEach} = require('./helpers/async-spec-helpers') // eslint-disable-line no-unused-vars
+const main = require('../lib/main')
+const AboutView = require('../lib/components/about-view')
+const UpdateView = require('../lib/components/update-view')
+const MockUpdater = require('./mocks/updater')
 
 describe('UpdateView', () => {
   let aboutElement

@@ -1,7 +1,5 @@
-/** @babel */
-
-import {it, fit, ffit, fffit, beforeEach, afterEach, conditionPromise} from './helpers/async-spec-helpers' // eslint-disable-line no-unused-vars
-import MockUpdater from './mocks/updater'
+const {it, fit, ffit, fffit, beforeEach, afterEach, conditionPromise} = require('./helpers/async-spec-helpers') // eslint-disable-line no-unused-vars
+const MockUpdater = require('./mocks/updater')
 
 describe('the status bar', () => {
   let atomVersion
