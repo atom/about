@@ -1,6 +1,4 @@
-/** @babel */
-
-export default {
+module.exports = {
   updateError () {
     atom.autoUpdater.emitter.emit('update-error')
   },

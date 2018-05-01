@@ -1,6 +1,4 @@
-/** @babel */
-
-import UpdateManager from '../lib/update-manager'
+const UpdateManager = require('../lib/update-manager')
 
 describe('UpdateManager', () => {
   let updateManager
