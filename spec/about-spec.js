@@ -56,9 +56,11 @@ describe('About', () => {
   describe('when the show more link is clicked', () => {
     it('expands to show additional version numbers', async () => {
       await atom.workspace.open('atom://about')
+      jasmine.attachToDOM(workspaceElement)
 
-      let showMoreElement = workspaceElement.querySelector('.show-more')
-      let moreInfoElement = workspaceElement.querySelector('.show-more-info')
+      let aboutElement = workspaceElement.querySelector('.about')
+      let showMoreElement = aboutElement.querySelector('.show-more-expand')
+      let moreInfoElement = workspaceElement.querySelector('.show-more')
       showMoreElement.click()
       expect(moreInfoElement).toBeVisible()
     })
