@@ -42,14 +42,60 @@ describe('About', () => {
     })
   })
 
-  describe('when the version number is clicked', () => {
+  describe('when the Atom version number is clicked', () => {
     it('copies the version number to the clipboard', async () => {
       await atom.workspace.open('atom://about')
 
       let aboutElement = workspaceElement.querySelector('.about')
-      let versionContainer = aboutElement.querySelector('.about-version-container')
+      let versionContainer = aboutElement.querySelector('.atom')
       versionContainer.click()
       expect(atom.clipboard.read()).toBe(atom.getVersion())
+    })
+  })
+
+  describe('when the show more link is clicked', () => {
+    it('expands to show additional version numbers', async () => {
+      await atom.workspace.open('atom://about')
+      jasmine.attachToDOM(workspaceElement)
+
+      let aboutElement = workspaceElement.querySelector('.about')
+      let showMoreElement = aboutElement.querySelector('.show-more-expand')
+      let moreInfoElement = workspaceElement.querySelector('.show-more')
+      showMoreElement.click()
+      expect(moreInfoElement).toBeVisible()
+    })
+  })
+
+  describe('when the Electron version number is clicked', () => {
+    it('copies the version number to the clipboard', async () => {
+      await atom.workspace.open('atom://about')
+
+      let aboutElement = workspaceElement.querySelector('.about')
+      let versionContainer = aboutElement.querySelector('.electron')
+      versionContainer.click()
+      expect(atom.clipboard.read()).toBe(process.versions.electron)
+    })
+  })
+
+  describe('when the Chrome version number is clicked', () => {
+    it('copies the version number to the clipboard', async () => {
+      await atom.workspace.open('atom://about')
+
+      let aboutElement = workspaceElement.querySelector('.about')
+      let versionContainer = aboutElement.querySelector('.chrome')
+      versionContainer.click()
+      expect(atom.clipboard.read()).toBe(process.versions.chrome)
+    })
+  })
+
+  describe('when the Node version number is clicked', () => {
+    it('copies the version number to the clipboard', async () => {
+      await atom.workspace.open('atom://about')
+
+      let aboutElement = workspaceElement.querySelector('.about')
+      let versionContainer = aboutElement.querySelector('.node')
+      versionContainer.click()
+      expect(atom.clipboard.read()).toBe(process.version)
     })
   })
 })
