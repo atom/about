@@ -16,6 +16,7 @@ describe('UpdateManager', () => {
       expect(updateManager.getReleaseNotesURLForVersion('1.7.0')).toContain('atom/atom/releases/tag/v1.7.0')
       expect(updateManager.getReleaseNotesURLForVersion('v1.7.0')).toContain('atom/atom/releases/tag/v1.7.0')
       expect(updateManager.getReleaseNotesURLForVersion('1.7.0-beta10')).toContain('atom/atom/releases/tag/v1.7.0-beta10')
+      expect(updateManager.getReleaseNotesURLForVersion('1.7.0-nightly10')).toContain('atom/atom-nightly-releases/releases/tag/v1.7.0-nightly10')
     })
   })
 })
