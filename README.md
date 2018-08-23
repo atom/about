@@ -1,3 +1,7 @@
+### This package is now a part of the [core Atom repository](https://github.com/atom/atom/tree/master/packages/about), please direct all issues and pull requests there in the future!
+
+---
+
 # About package
 [![macOS Build Status](https://travis-ci.org/atom/about.svg?branch=master)](https://travis-ci.org/atom/about) [![Windows Build Status](https://ci.appveyor.com/api/projects/status/msprea3vq47l8oce/branch/master?svg=true)](https://ci.appveyor.com/project/atom/about/branch/master) [![Dependency Status](https://david-dm.org/atom/about.svg)](https://david-dm.org/atom/about) 
 
